@@ -1,0 +1,12 @@
+const glow=document.getElementById("cursorGlow");
+window.addEventListener("pointermove",e=>{if(glow){glow.style.left=e.clientX+"px";glow.style.top=e.clientY+"px";}});
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("show");observer.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+const menuToggle=document.querySelector(".menu-toggle"),nav=document.querySelector(".nav");
+menuToggle?.addEventListener("click",()=>{const open=nav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",open);});
+document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
+document.getElementById("year").textContent=new Date().getFullYear();
+const form=document.getElementById("contactForm"),status=document.getElementById("formStatus");
+form?.addEventListener("submit",e=>{e.preventDefault();const data=new FormData(form);const name=data.get("name");status.textContent=`Obrigado, ${name}. Esta demonstração está pronta para conectar ao e-mail ou a um serviço de formulários.`;form.reset();});
+document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mousemove",e=>{const rect=card.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5;card.style.transform=`translateX(${x*8}px)`;}));
+document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mouseleave",()=>card.style.transform=""));
