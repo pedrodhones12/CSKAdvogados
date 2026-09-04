@@ -1,13 +1,728 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="CSK Advogados — Notícias, análises e insights jurídicos." />
-    <title>CSK | Notícias</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cardoso Sena Kruschewsky Advogados — inteligência jurídica para decisões complexas." />
+  <title>CSK | Cardoso Sena Kruschewsky Advogados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* =========================================================
+       CSK — MÓDULO DE NOTÍCIAS
+       Mantém a identidade visual existente.
+       ========================================================= */
+    .news {
+      background: #eeece8;
+      overflow: hidden;
+    }
+
+    .news-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(23,36,58,.14);
+    }
+
+    .news-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+    }
+
+    .news-filter {
+      appearance: none;
+      border: 1px solid rgba(23,36,58,.18);
+      background: transparent;
+      color: #17243a;
+      border-radius: 99px;
+      padding: .62rem .85rem;
+      font: inherit;
+      font-size: .62rem;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: .25s ease;
+    }
+
+    .news-filter:hover,
+    .news-filter.active {
+      background: #17243a;
+      color: #f5f2ed;
+      border-color: #17243a;
+    }
+
+    .news-search {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      flex-shrink: 0;
+    }
+
+    .news-search span {
+      font-size: .58rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: #687386;
+    }
+
+    .news-search input {
+      width: 190px;
+      border: 0;
+      border-bottom: 1px solid rgba(23,36,58,.25);
+      background: transparent;
+      padding: .65rem 0;
+      outline: none;
+      color: #17243a;
+      font: inherit;
+      font-size: .78rem;
+    }
+
+    .news-search input:focus {
+      border-color: #17243a;
+    }
+
+    .news-featured {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      min-height: 520px;
+      background: #e4e2de;
+      border: 1px solid rgba(23,36,58,.12);
+      margin-bottom: 3rem;
+      overflow: hidden;
+    }
+
+    .news-featured-image {
+      min-height: 100%;
+      background: linear-gradient(135deg,#d8dde4,#eeece8);
+      overflow: hidden;
+    }
+
+    .news-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background:
+        radial-gradient(circle at 60% 35%, rgba(23,36,58,.12), transparent 32%),
+        linear-gradient(135deg, #e9e7e3 0%, #d8dde4 100%);
+    }
+
+    .news-image-placeholder::before,
+    .news-image-placeholder::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(23,36,58,.10);
+      border-radius: 50%;
+    }
+
+    .news-image-placeholder::before {
+      width: 360px;
+      height: 360px;
+    }
+
+    .news-image-placeholder::after {
+      width: 220px;
+      height: 220px;
+    }
+
+    .news-image-placeholder span {
+      position: relative;
+      z-index: 1;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      letter-spacing: -.12em;
+      color: #17243a;
+    }
+
+    .news-image-placeholder small {
+      position: relative;
+      z-index: 1;
+      margin-top: 1rem;
+      color: #687386;
+      font-size: .55rem;
+      letter-spacing: .2em;
+    }
+
+    .news-featured-content {
+      padding: clamp(2rem,5vw,5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .news-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      color: #687386;
+      font-size: .58rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .news-featured h3 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.7rem, 5vw, 5.2rem);
+      line-height: 1;
+      letter-spacing: -.05em;
+      font-weight: 500;
+      color: #17243a;
+      margin: 1.4rem 0;
+    }
+
+    .news-featured-content > p {
+      max-width: 560px;
+      color: #687386;
+      line-height: 1.8;
+      font-size: .94rem;
+    }
+
+    .news-read {
+      align-self: flex-start;
+      margin-top: 2rem;
+      padding: 0;
+      border: 0;
+      border-bottom: 1px solid #17243a;
+      padding-bottom: 7px;
+      background: transparent;
+      color: #17243a;
+      font: inherit;
+      font-size: .72rem;
+      cursor: pointer;
+    }
+
+    .news-read span {
+      margin-left: 22px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(23,36,58,.13);
+    }
+
+    .news-card {
+      background: #eeece8;
+      min-width: 0;
+      transition: transform .3s ease, background .3s ease;
+    }
+
+    .news-card:hover {
+      background: #e6e4e0;
+      transform: translateY(-4px);
+    }
+
+    .news-card-image {
+      aspect-ratio: 1.2 / .85;
+      overflow: hidden;
+      background: #dfe2e5;
+    }
+
+    .news-card-image .news-image-placeholder {
+      min-height: 0;
+      transition: transform .6s ease;
+    }
+
+    .news-card:hover .news-image-placeholder {
+      transform: scale(1.04);
+    }
+
+    .news-image-placeholder.compact span {
+      font-size: 4rem;
+    }
+
+    .news-card-body {
+      padding: 1.6rem 1.5rem 1.8rem;
+    }
+
+    .news-card .news-meta {
+      justify-content: space-between;
+      gap: .5rem;
+      font-size: .52rem;
+    }
+
+    .news-card h3 {
+      font-family: "Playfair Display", serif;
+      color: #17243a;
+      font-weight: 500;
+      font-size: 1.65rem;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+      margin: 1.2rem 0 .9rem;
+    }
+
+    .news-card p {
+      color: #687386;
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+
+    .news-card .news-read {
+      margin-top: 1.3rem;
+    }
+
+    .news-empty {
+      padding: 3rem 0;
+      text-align: center;
+      color: #687386;
+      font-size: .8rem;
+      border-top: 1px solid rgba(23,36,58,.14);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: #d0d4da;
+      text-decoration: none;
+      font-size: .7rem;
+    }
+
+    @media (max-width: 1000px) {
+      .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .news-featured {
+        grid-template-columns: 1fr;
+      }
+
+      .news-featured-image {
+        min-height: 380px;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .news-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .news-search {
+        width: 100%;
+      }
+
+      .news-search input {
+        width: 100%;
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .news-featured h3 {
+        font-size: clamp(2.8rem, 11vw, 5rem);
+      }
+
+      .footer-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .7rem;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <header class="nav" id="topo">
+    <a class="brand" href="#topo" aria-label="CSK início">
+      <span class="brand-mark">CSK</span>
+      <span class="brand-text">ADVOGADOS</span>
+    </a>
+
+    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+
+    <nav class="menu">
+      <a href="#escritorio">O escritório</a>
+      <a href="#atuacao">Atuação</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#noticias">Notícias</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="nav-cta" href="#contato">Fale conosco <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="grid-lines"></div>
+
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span></span> ADVOCACIA ESTRATÉGICA</div>
+        <h1>Inteligência jurídica<br><em>para o que vem depois.</em></h1>
+        <p>Estratégia, técnica e inovação para transformar desafios complexos em decisões mais seguras.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#contato">Iniciar uma conversa <span>→</span></a>
+          <a class="button button-ghost" href="#atuacao">Conheça nossa atuação</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal delay-1">
+        <div class="hero-card card-main">
+          <img src="assets/logo-csk.jpeg" alt="Logo CSK Cardoso Sena Kruschewsky Advogados" />
+        </div>
+        <div class="floating-tag tag-one">ESTRATÉGIA</div>
+        <div class="floating-tag tag-two">INOVAÇÃO</div>
+        <div class="floating-tag tag-three">PRECISÃO</div>
+        <div class="scroll-hint">ROLE PARA EXPLORAR <span></span></div>
+      </div>
+    </section>
+
+    <section class="intro section-pad" id="escritorio">
+      <div class="section-number reveal">01</div>
+      <div class="intro-grid">
+        <div class="sticky-label reveal">QUEM SOMOS</div>
+        <div class="intro-content">
+          <p class="big-text reveal">Uma advocacia construída para acompanhar decisões que <em>não podem ser tratadas de forma comum.</em></p>
+          <p class="body-text reveal">A CSK combina conhecimento jurídico, visão estratégica e uma abordagem próxima para compreender cada contexto e construir soluções sob medida. Um escritório contemporâneo para desafios contemporâneos.</p>
+          <a class="text-link reveal" href="#contato">Conheça a CSK <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="manifesto-track">
+        <span>CONHECIMENTO</span><i>✦</i><span>INOVAÇÃO</span><i>✦</i><span>EFICIÊNCIA</span><i>✦</i>
+        <span>CONHECIMENTO</span><i>✦</i><span>INOVAÇÃO</span><i>✦</i><span>EFICIÊNCIA</span><i>✦</i>
+      </div>
+    </section>
+
+    <section class="areas section-pad" id="atuacao">
+      <div class="section-heading reveal">
+        <div>
+          <div class="eyebrow"><span></span> ÁREAS DE ATUAÇÃO</div>
+          <h2>Profundidade técnica.<br><em>Visão de negócio.</em></h2>
+        </div>
+        <p>Uma atuação multidisciplinar para acompanhar pessoas e empresas em decisões, transformações e oportunidades.</p>
+      </div>
+
+      <div class="areas-list">
+        <article class="area-card reveal">
+          <span class="area-index">01</span>
+          <h3>Contencioso Cível</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+        <article class="area-card reveal">
+          <span class="area-index">02</span>
+          <h3>Direito Societário</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+        <article class="area-card reveal">
+          <span class="area-index">03</span>
+          <h3>Contratos e Obrigações</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+        <article class="area-card reveal">
+          <span class="area-index">04</span>
+          <h3>Direito Digital &amp; Inovação</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+        <article class="area-card reveal">
+          <span class="area-index">05</span>
+          <h3>Direito Tributário</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+        <article class="area-card reveal">
+          <span class="area-index">06</span>
+          <h3>Imobiliário &amp; Patrimonial</h3>
+          <span class="area-arrow">↗</span>
+        </article>
+      </div>
+      <a class="button button-outline reveal" href="#contato">Falar sobre uma demanda <span>↗</span></a>
+    </section>
+
+    <section class="team section-pad" id="equipe">
+      <div class="team-header reveal">
+        <div class="eyebrow"><span></span> PESSOAS POR TRÁS DA ESTRATÉGIA</div>
+        <h2>Relações próximas.<br><em>Resultados consistentes.</em></h2>
+      </div>
+      <div class="team-stage reveal">
+        <div class="team-frame">
+          <img src="assets/equipe-csk.jpeg" alt="Equipe do escritório CSK Advogados" />
+          <div class="team-overlay"></div>
+          <div class="team-caption">
+            <span>CSK</span>
+            <p>Cardoso Sena Kruschewsky<br>Advogados</p>
+          </div>
+        </div>
+        <div class="team-note">
+          <span class="line"></span>
+          <p>Uma equipe que une técnica, repertório e uma leitura atenta de cada desafio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles section-pad">
+      <div class="section-number reveal">02</div>
+      <div class="principles-grid">
+        <article class="principle reveal">
+          <span>01</span><h3>Conhecimento</h3>
+          <p>Base técnica para decisões juridicamente sólidas e estrategicamente orientadas.</p>
+        </article>
+        <article class="principle reveal delay-1">
+          <span>02</span><h3>Inovação</h3>
+          <p>Novas ferramentas e novas perspectivas para um mercado em constante transformação.</p>
+        </article>
+        <article class="principle reveal delay-2">
+          <span>03</span><h3>Eficiência</h3>
+          <p>Clareza, agilidade e foco naquilo que realmente gera valor para cada cliente.</p>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         NOTÍCIAS CSK
+         Área pública preparada para futura integração com React/API.
+         ========================================================= -->
+    <section class="news section-pad" id="noticias">
+      <div class="section-number reveal">03</div>
+
+      <div class="section-heading reveal">
+        <div>
+          <div class="eyebrow"><span></span> ATUALIZAÇÕES CSK</div>
+          <h2>Notícias e <br><em>insights jurídicos.</em></h2>
+        </div>
+        <p>
+          Conteúdo jurídico, análises e informações para acompanhar
+          transformações, oportunidades e decisões relevantes.
+        </p>
+      </div>
+
+      <div class="news-toolbar reveal">
+        <div class="news-filters" role="group" aria-label="Filtrar notícias">
+          <button class="news-filter active" data-category="Todas">Todas</button>
+          <button class="news-filter" data-category="Cível">Cível</button>
+          <button class="news-filter" data-category="Societário">Societário</button>
+          <button class="news-filter" data-category="Digital & Inovação">Digital &amp; Inovação</button>
+          <button class="news-filter" data-category="Tributário">Tributário</button>
+          <button class="news-filter" data-category="Institucional">Institucional</button>
+        </div>
+
+        <label class="news-search">
+          <span>Pesquisar</span>
+          <input type="search" id="newsSearch" placeholder="Buscar notícias..." />
+        </label>
+      </div>
+
+      <article class="news-featured reveal" data-category="Digital & Inovação"
+               data-title="Inteligência artificial e os novos desafios jurídicos">
+        <div class="news-featured-image">
+          <div class="news-image-placeholder">
+            <span>CSK</span>
+            <small>IMAGEM DA NOTÍCIA</small>
+          </div>
+        </div>
+
+        <div class="news-featured-content">
+          <div class="news-meta">
+            <span>03 SET 2026</span>
+            <span>•</span>
+            <span>Digital &amp; Inovação</span>
+          </div>
+          <h3>Inteligência artificial e os novos desafios jurídicos</h3>
+          <p>
+            Uma análise sobre os impactos da transformação tecnológica,
+            os desafios regulatórios e a importância de decisões jurídicas
+            estratégicas em um cenário de inovação acelerada.
+          </p>
+          <button class="news-read" data-news="featured">Ler notícia <span>↗</span></button>
+        </div>
+      </article>
+
+      <div class="news-grid" id="newsGrid">
+
+        <article class="news-card reveal"
+                 data-category="Institucional"
+                 data-title="CSK amplia sua atuação com visão estratégica">
+          <div class="news-card-image">
+            <div class="news-image-placeholder compact"><span>CSK</span></div>
+          </div>
+          <div class="news-card-body">
+            <div class="news-meta"><span>28 AGO 2026</span><span>Institucional</span></div>
+            <h3>CSK amplia sua atuação com visão estratégica</h3>
+            <p>Conheça a abordagem do escritório para acompanhar decisões complexas.</p>
+            <button class="news-read" data-news="institutional">Ler notícia <span>→</span></button>
+          </div>
+        </article>
+
+        <article class="news-card reveal delay-1"
+                 data-category="Cível"
+                 data-title="Decisões estratégicas no contencioso cível">
+          <div class="news-card-image">
+            <div class="news-image-placeholder compact"><span>CSK</span></div>
+          </div>
+          <div class="news-card-body">
+            <div class="news-meta"><span>22 AGO 2026</span><span>Cível</span></div>
+            <h3>Decisões estratégicas no contencioso cível</h3>
+            <p>Aspectos que merecem atenção na análise de conflitos e oportunidades.</p>
+            <button class="news-read" data-news="civil">Ler notícia <span>→</span></button>
+          </div>
+        </article>
+
+        <article class="news-card reveal delay-2"
+                 data-category="Societário"
+                 data-title="Governança e segurança nas decisões empresariais">
+          <div class="news-card-image">
+            <div class="news-image-placeholder compact"><span>CSK</span></div>
+          </div>
+          <div class="news-card-body">
+            <div class="news-meta"><span>15 AGO 2026</span><span>Societário</span></div>
+            <h3>Governança e segurança nas decisões empresariais</h3>
+            <p>Como uma visão jurídica integrada pode apoiar empresas em transformação.</p>
+            <button class="news-read" data-news="corporate">Ler notícia <span>→</span></button>
+          </div>
+        </article>
+
+        <article class="news-card reveal"
+                 data-category="Tributário"
+                 data-title="Planejamento tributário e tomada de decisão">
+          <div class="news-card-image">
+            <div class="news-image-placeholder compact"><span>CSK</span></div>
+          </div>
+          <div class="news-card-body">
+            <div class="news-meta"><span>08 AGO 2026</span><span>Tributário</span></div>
+            <h3>Planejamento tributário e tomada de decisão</h3>
+            <p>Uma perspectiva estratégica sobre riscos, eficiência e planejamento.</p>
+            <button class="news-read" data-news="tax">Ler notícia <span>→</span></button>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="news-empty" id="newsEmpty" hidden>
+        Nenhuma notícia encontrada para os critérios selecionados.
+      </div>
+    </section>
+
+    <section class="contact" id="contato">
+      <div class="contact-orb"></div>
+      <div class="contact-inner reveal">
+        <div class="eyebrow light"><span></span> VAMOS CONVERSAR</div>
+        <h2>O próximo passo<br>começa <em>aqui.</em></h2>
+        <p>Conte-nos sobre o seu desafio. Nossa equipe entrará em contato.</p>
+        <form class="contact-form" id="contactForm">
+          <label>
+            <span>Nome</span>
+            <input type="text" name="name" placeholder="Como podemos chamar você?" required>
+          </label>
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" placeholder="seuemail@empresa.com" required>
+          </label>
+          <label>
+            <span>Mensagem</span>
+            <textarea name="message" placeholder="Conte brevemente sobre a sua necessidade..." required></textarea>
+          </label>
+          <button class="button button-light" type="submit">Enviar mensagem <span>→</span></button>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="contact-side">
+        <div class="contact-word">CSK</div>
+        <a href="https://www.instagram.com/cskadvogados/" target="_blank" rel="noopener">Instagram ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <a class="brand footer-brand" href="#topo"><span class="brand-mark">CSK</span><span class="brand-text">ADVOGADOS</span></a>
+      <div class="footer-links">
+        <a href="#noticias">Notícias</a>
+        <a href="#topo">Voltar ao topo ↑</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Cardoso Sena Kruschewsky Advogados.</span>
+      <span>Site conceito • HTML + CSS + JavaScript • Módulo de notícias</span>
+    </div>
+  </footer>
+
+
+  <script>
+    /* CSK Notícias — filtro e pesquisa da área pública */
+    (() => {
+      const filters = document.querySelectorAll(".news-filter");
+      const cards = document.querySelectorAll("#newsGrid .news-card");
+      const featured = document.querySelector(".news-featured");
+      const search = document.getElementById("newsSearch");
+      const empty = document.getElementById("newsEmpty");
+
+      let activeCategory = "Todas";
+
+      function updateNews() {
+        const term = (search?.value || "").trim().toLowerCase();
+        let visible = 0;
+
+        cards.forEach(card => {
+          const category = card.dataset.category || "";
+          const title = card.dataset.title || "";
+          const matchesCategory = activeCategory === "Todas" || category === activeCategory;
+          const matchesSearch = !term || title.toLowerCase().includes(term);
+
+          const show = matchesCategory && matchesSearch;
+          card.hidden = !show;
+          if (show) visible++;
+        });
+
+        if (featured) {
+          const category = featured.dataset.category || "";
+          const title = featured.dataset.title || "";
+          const matchesCategory = activeCategory === "Todas" || category === activeCategory;
+          const matchesSearch = !term || title.toLowerCase().includes(term);
+          featured.hidden = !(matchesCategory && matchesSearch);
+          if (!featured.hidden) visible++;
+        }
+
+        if (empty) empty.hidden = visible !== 0;
+      }
+
+      filters.forEach(button => {
+        button.addEventListener("click", () => {
+          filters.forEach(item => item.classList.remove("active"));
+          button.classList.add("active");
+          activeCategory = button.dataset.category || "Todas";
+          updateNews();
+        });
+      });
+
+      search?.addEventListener("input", updateNews);
+
+      document.querySelectorAll(".news-read").forEach(button => {
+        button.addEventListener("click", () => {
+          const title = button.closest("article")?.dataset.title ||
+                        "Notícia CSK";
+          alert(
+            "Página da notícia: " + title +
+            "\n\nEsta área já está preparada para receber o conteúdo completo " +
+            "e, posteriormente, ser conectada ao painel React + banco de dados."
+          );
+        });
+      });
+    })();
+  </script>
+
+  <script src="script.js"></script>
+</body>
 </html>
