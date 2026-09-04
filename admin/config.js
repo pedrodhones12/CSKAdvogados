@@ -1,6 +1,7 @@
 // Configuração pública do Supabase para o painel CSK.
-// A chave ANON do Supabase pode ficar no frontend; NUNCA coloque service_role aqui.
+// A chave pública (publishable/anon) pode ficar no frontend.
+// NUNCA coloque aqui a service_role ou qualquer chave secreta.
 window.CSK_SUPABASE = {
-  url: 'COLOQUE_AQUI_A_URL_DO_SEU_PROJETO_SUPABASE',
-  anonKey: 'COLOQUE_AQUI_A_CHAVE_ANON_DO_SEU_PROJETO_SUPABASE'
+  url: 'https://elrldxaapgfbygurzdzb.supabase.co',
+  anonKey: 'sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn'
 };
