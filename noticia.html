@@ -15,77 +15,15 @@
 <main class="wrap"><a class="back" href="noticias.html">← Todas as notícias</a><div id="status" class="status">Carregando notícia...</div><article id="article" hidden><div class="meta"><span id="date"></span><span>•</span><span id="category"></span></div><h1 class="title" id="title"></h1><p class="summary" id="summary"></p><img id="image" class="hero-image" alt=""><div id="content" class="content"></div></article></main>
 <footer><span>© <span id="year"></span> Cardoso Sena Kruschewsky Advogados.</span><a href="admin-noticias.html">Administração ↗</a></footer>
 <script>
-const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";
-const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
-const fmt=v=>v?new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(v)).replace(".","").toUpperCase():"";
-const safeUrl=u=>u&&/^https?:\/\//i.test(String(u).trim())?String(u).trim():"";
-
+const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const $=id=>document.getElementById(id);const fmt=v=>v?new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(v)).replace(".","").toUpperCase():"";const safeUrl=u=>u&&/^https?:\/\//i.test(String(u).trim())?String(u).trim():"";
 function escapeHTML(value){return String(value||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
-
-function plainTextToHTML(text){
-  return String(text||"").split(/\n\s*\n|\n/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${escapeHTML(p)}</p>`).join("");
-}
-
-function convertLegacyImages(text){
-  return String(text||"").replace(/\[\[IMAGEM_INTERNA:(https?:\/\/[^\]\s]+)\]\]/gi,(match,url)=>`<p><img src="${escapeHTML(url)}" alt="Imagem da notícia" loading="lazy"></p>`);
-}
-
-function sanitizeArticleHTML(html){
-  const source=document.createElement("div");
-  source.innerHTML=convertLegacyImages(html);
-  const allowedTags=new Set(["P","BR","H2","H3","UL","OL","LI","STRONG","B","EM","I","U","BLOCKQUOTE","IMG","DIV"]);
-  const walk=node=>{
-    [...node.childNodes].forEach(child=>{
-      if(child.nodeType===Node.ELEMENT_NODE){
-        if(!allowedTags.has(child.tagName)){
-          const fragment=document.createDocumentFragment();
-          while(child.firstChild) fragment.appendChild(child.firstChild);
-          child.replaceWith(fragment);
-          walk(node);
-          return;
-        }
-        [...child.attributes].forEach(attr=>{
-          const name=attr.name.toLowerCase();
-          if(child.tagName!=="IMG" || !["src","alt","loading"].includes(name)) child.removeAttribute(attr.name);
-        });
-        if(child.tagName==="IMG"){
-          const url=safeUrl(child.getAttribute("src"));
-          if(!url) child.remove();
-          else {child.setAttribute("src",url);child.setAttribute("loading","lazy");}
-        }
-        walk(child);
-      }
-    });
-  };
-  walk(source);
-  return source.innerHTML;
-}
-
-function renderContent(raw){
-  const value=String(raw||"").trim();
-  if(!value)return "";
-  const looksLikeHTML=/<(?:p|div|br|h2|h3|ul|ol|li|strong|b|em|i|u|blockquote|img)\b[^>]*>/i.test(value);
-  return sanitizeArticleHTML(looksLikeHTML?value:plainTextToHTML(value));
-}
-
-(async()=>{
-  const id=new URLSearchParams(location.search).get("id");
-  if(!id){$("status").textContent="Notícia não encontrada.";return;}
-  const {data,error}=await db.from("noticias").select("*").eq("id",id).eq("publicada",true).maybeSingle();
-  if(error||!data){$("status").textContent="Notícia não encontrada ou ainda não publicada.";return;}
-  $("status").style.display="none";
-  $("article").hidden=false;
-  $("title").textContent=data.titulo||"";
-  $("summary").textContent=data.resumo||"";
-  $("date").textContent=fmt(data.created_at);
-  $("category").textContent=data.categoria||"";
-  $("content").innerHTML=renderContent(data.conteudo||"");
-  const cover=safeUrl(data.imagem_url);
-  if(cover){$("image").src=cover;$("image").alt=data.titulo||"";$("image").style.display="block";}
-  document.title=(data.titulo?data.titulo+" | ":"")+"CSK Advogados";
-})();
+function plainTextToHTML(text){return String(text||"").split(/\n\s*\n|\n/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${escapeHTML(p)}</p>`).join("");}
+function convertLegacyImages(text){return String(text||"").replace(/\[\[IMAGEM_INTERNA:(https?:\/\/[^\]\s]+)\]\]/gi,(match,url)=>`<p><img src="${escapeHTML(url)}" alt="Imagem da notícia" loading="lazy"></p>`);}
+function sanitizeArticleHTML(html){const source=document.createElement("div");source.innerHTML=convertLegacyImages(html);const allowedTags=new Set(["P","BR","H2","H3","UL","OL","LI","STRONG","B","EM","I","U","BLOCKQUOTE","IMG","DIV"]);const walk=node=>{[...node.childNodes].forEach(child=>{if(child.nodeType===Node.ELEMENT_NODE){if(!allowedTags.has(child.tagName)){const fragment=document.createDocumentFragment();while(child.firstChild)fragment.appendChild(child.firstChild);child.replaceWith(fragment);walk(node);return}[...child.attributes].forEach(attr=>{const name=attr.name.toLowerCase();if(child.tagName!=="IMG"||!["src","alt","loading"].includes(name))child.removeAttribute(attr.name)});if(child.tagName==="IMG"){const url=safeUrl(child.getAttribute("src"));if(!url)child.remove();else{child.setAttribute("src",url);child.setAttribute("loading","lazy")}}walk(child)}})};walk(source);return source.innerHTML;}
+function renderContent(raw){const value=String(raw||"").trim();if(!value)return"";const looksLikeHTML=/<(?:p|div|br|h2|h3|ul|ol|li|strong|b|em|i|u|blockquote|img)\b[^>]*>/i.test(value);return sanitizeArticleHTML(looksLikeHTML?value:plainTextToHTML(value));}
+function firstContentImage(raw){const html=String(raw||"");const m=html.match(/<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/i);if(m&&safeUrl(m[1]))return safeUrl(m[1]);const legacy=html.match(/\[\[IMAGEM_INTERNA:(https?:\/\/[^\]\s]+)\]\]/i);return legacy?safeUrl(legacy[1]):"";}
+function coverUrl(data){return safeUrl(data.imagem_url)||firstContentImage(data.conteudo);}
+(async()=>{const id=new URLSearchParams(location.search).get("id");if(!id){$("status").textContent="Notícia não encontrada.";return}const{data,error}=await db.from("noticias").select("*").eq("id",id).eq("publicada",true).maybeSingle();if(error||!data){$("status").textContent="Notícia não encontrada ou ainda não publicada.";return}$("status").style.display="none";$("article").hidden=false;$("title").textContent=data.titulo||"";$("summary").textContent=data.resumo||"";$("date").textContent=fmt(data.created_at);$("category").textContent=data.categoria||"";$("content").innerHTML=renderContent(data.conteudo||"");const cover=coverUrl(data);if(cover){$("image").src=cover;$("image").alt=data.titulo||"";$("image").style.display="block";$("image").onerror=()=>{$("image").style.display="none";}}document.title=(data.titulo?data.titulo+" | ":"")+"CSK Advogados";})();
 $("year").textContent=new Date().getFullYear();
 </script>
 </body>
