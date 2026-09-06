@@ -6,8 +6,42 @@ const menuToggle=document.querySelector(".menu-toggle"),nav=document.querySelect
 menuToggle?.addEventListener("click",()=>{const open=nav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",open);});
 document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
 const yearEl=document.getElementById("year");if(yearEl)yearEl.textContent=new Date().getFullYear();
+
+// =========================================================
+// FORMULÁRIO DE CONTATO — CSK
+// Abre diretamente a tela de composição do Gmail, já com
+// o destinatário, assunto e mensagem preenchidos.
+// =========================================================
 const form=document.getElementById("contactForm"),status=document.getElementById("formStatus");
-form?.addEventListener("submit",e=>{e.preventDefault();const data=new FormData(form);const name=data.get("name");if(status)status.textContent=`Obrigado, ${name}. Esta demonstração está pronta para conectar ao e-mail ou a um serviço de formulários.`;form.reset();});
+const CONTACT_EMAIL="adm@cskadvogados.com.br";
+form?.addEventListener("submit",e=>{
+  e.preventDefault();
+  const data=new FormData(form);
+  const name=String(data.get("name")||"").trim();
+  const email=String(data.get("email")||"").trim();
+  const message=String(data.get("message")||"").trim();
+
+  if(!name||!email||!message){
+    if(status)status.textContent="Preencha nome, e-mail e mensagem para continuar.";
+    return;
+  }
+
+  const subject=`Contato pelo site CSK — ${name}`;
+  const body=[
+    `Nome: ${name}`,
+    `E-mail: ${email}`,
+    "",
+    "Mensagem:",
+    message
+  ].join("\\n");
+
+  // Gmail Web: abre a composição com o endereço do escritório.
+  const gmailUrl=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  if(status)status.textContent="Abrindo o Gmail do escritório...";
+  window.location.href=gmailUrl;
+});
+
 document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mousemove",e=>{const rect=card.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5;card.style.transform=`translateX(${x*8}px)`;}));
 document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mouseleave",()=>card.style.transform=""));
 
