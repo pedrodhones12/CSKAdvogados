@@ -8,6 +8,18 @@ document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>n
 const yearEl=document.getElementById("year");if(yearEl)yearEl.textContent=new Date().getFullYear();
 
 // =========================================================
+// WHATSAPP — BOTÃO PRINCIPAL DA PÁGINA INICIAL
+// =========================================================
+const WHATSAPP_NUMBER="557130430188";
+const WHATSAPP_MESSAGE="Olá! Seja bem-vindo(a) ao CSK Advogados! ⚖️\n\nÉ um prazer ter você conosco.\n\nSomos um escritório especializado em Inovação Empresarial com Ferramentas Jurídicas, conectando empresas ao futuro por meio de estratégia, segurança e visão de crescimento.\n\nNossa equipe está à disposição para entender sua necessidade e oferecer o melhor direcionamento jurídico para o seu negócio.\n\n📲 Como podemos ajudar você hoje?";
+const whatsappUrl=`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+document.querySelectorAll('.hero-actions .button-primary').forEach(button=>{
+  button.setAttribute('href',whatsappUrl);
+  button.setAttribute('target','_blank');
+  button.setAttribute('rel','noopener noreferrer');
+});
+
+// =========================================================
 // FORMULÁRIO DE CONTATO — CSK
 // Abre diretamente a tela de composição do Gmail, já com
 // o destinatário, assunto e mensagem preenchidos.
@@ -33,9 +45,8 @@ form?.addEventListener("submit",e=>{
     "",
     "Mensagem:",
     message
-  ].join("\\n");
+  ].join("\n");
 
-  // Gmail Web: abre a composição com o endereço do escritório.
   const gmailUrl=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   if(status)status.textContent="Abrindo o Gmail do escritório...";
