@@ -9,10 +9,11 @@ const yearEl=document.getElementById("year");if(yearEl)yearEl.textContent=new Da
 
 // =========================================================
 // WHATSAPP — BOTÃO PRINCIPAL DA PÁGINA INICIAL
+// Abre somente a conversa com o WhatsApp do escritório.
+// A mensagem de boas-vindas deve ser configurada no WhatsApp Business.
 // =========================================================
 const WHATSAPP_NUMBER="557130430188";
-const WHATSAPP_MESSAGE="Olá! Seja bem-vindo(a) ao CSK Advogados! ⚖️\n\nÉ um prazer ter você conosco.\n\nSomos um escritório especializado em Inovação Empresarial com Ferramentas Jurídicas, conectando empresas ao futuro por meio de estratégia, segurança e visão de crescimento.\n\nNossa equipe está à disposição para entender sua necessidade e oferecer o melhor direcionamento jurídico para o seu negócio.\n\n📲 Como podemos ajudar você hoje?";
-const whatsappUrl=`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const whatsappUrl=`https://wa.me/${WHATSAPP_NUMBER}`;
 document.querySelectorAll('.hero-actions .button-primary').forEach(button=>{
   button.setAttribute('href',whatsappUrl);
   button.setAttribute('target','_blank');
