@@ -7,15 +7,86 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--navy:#17243a;--dark:#101a2b;--cream:#eeece8;--gray:#687386;--line:rgba(23,36,58,.14)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif}.nav{padding:28px 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;flex-direction:column;color:var(--navy);text-decoration:none}.brand-mark{font-family:"Playfair Display",serif;font-size:2rem;line-height:.8;letter-spacing:-.08em}.brand-text{margin-top:7px;font-size:.48rem;letter-spacing:.28em;font-weight:600}.nav-links{display:flex;gap:24px}.nav-links a{color:var(--navy);text-decoration:none;font-size:.68rem}.wrap{width:min(1000px,88vw);margin:0 auto;padding:100px 0 130px}.back{color:var(--gray);text-decoration:none;font-size:.65rem;text-transform:uppercase;letter-spacing:.14em}.meta{display:flex;gap:12px;margin-top:35px;color:var(--gray);font-size:.58rem;text-transform:uppercase;letter-spacing:.14em}.title{font-family:"Playfair Display",serif;font-size:clamp(3rem,7vw,6.8rem);line-height:.92;letter-spacing:-.065em;font-weight:500;margin:24px 0 25px;max-width:950px}.summary{font-size:1.05rem;line-height:1.8;color:var(--gray);max-width:760px}.hero-image,.article-image{width:100%;max-height:600px;object-fit:cover;margin:55px 0 60px;display:none}.article-image{max-height:520px;margin:45px 0}.content{max-width:780px;color:#566173;font-size:1rem;line-height:2}.content p{margin:0 0 25px}.status{text-align:center;padding:100px 0;color:var(--gray)}footer{background:var(--dark);color:#d0d4da;padding:45px 7vw;font-size:.62rem;display:flex;justify-content:space-between}footer a{color:#d0d4da;text-decoration:none}@media(max-width:700px){.nav-links{display:none}.wrap{padding-top:65px}.title{font-size:clamp(2.8rem,14vw,5rem)}footer{flex-direction:column;gap:15px}}
+:root{--navy:#17243a;--dark:#101a2b;--cream:#eeece8;--gray:#687386;--line:rgba(23,36,58,.14)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif}.nav{padding:28px 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;flex-direction:column;color:var(--navy);text-decoration:none}.brand-mark{font-family:"Playfair Display",serif;font-size:2rem;line-height:.8;letter-spacing:-.08em}.brand-text{margin-top:7px;font-size:.48rem;letter-spacing:.28em;font-weight:600}.nav-links{display:flex;gap:24px}.nav-links a{color:var(--navy);text-decoration:none;font-size:.68rem}.wrap{width:min(1000px,88vw);margin:0 auto;padding:100px 0 130px}.back{color:var(--gray);text-decoration:none;font-size:.65rem;text-transform:uppercase;letter-spacing:.14em}.meta{display:flex;gap:12px;margin-top:35px;color:var(--gray);font-size:.58rem;text-transform:uppercase;letter-spacing:.14em}.title{font-family:"Playfair Display",serif;font-size:clamp(3rem,7vw,6.8rem);line-height:.92;letter-spacing:-.065em;font-weight:500;margin:24px 0 25px;max-width:950px}.summary{font-size:1.05rem;line-height:1.8;color:var(--gray);max-width:760px}.hero-image{width:100%;max-height:600px;object-fit:cover;margin:55px 0 60px;display:none;border-radius:2px}.content{max-width:780px;color:#566173;font-size:1rem;line-height:2}.content p{margin:0 0 25px}.content h2,.content h3{font-family:"Playfair Display",serif;color:var(--navy);line-height:1.2;margin:48px 0 20px}.content h2{font-size:2rem}.content h3{font-size:1.45rem}.content ul,.content ol{margin:0 0 28px;padding-left:28px}.content li{margin:8px 0}.content blockquote{border-left:3px solid var(--navy);margin:30px 0;padding:5px 0 5px 25px;font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--navy)}.content img{display:block;width:auto;max-width:100%;height:auto;max-height:650px;object-fit:contain;margin:42px auto;border-radius:3px}.content a{color:var(--navy);text-decoration:underline}.status{text-align:center;padding:100px 0;color:var(--gray)}footer{background:var(--dark);color:#d0d4da;padding:45px 7vw;font-size:.62rem;display:flex;justify-content:space-between}footer a{color:#d0d4da;text-decoration:none}@media(max-width:700px){.nav-links{display:none}.wrap{padding-top:65px}.title{font-size:clamp(2.8rem,14vw,5rem)}.content{font-size:.98rem}.content img{max-height:480px;margin:32px auto}footer{flex-direction:column;gap:15px}}
 </style>
 </head>
 <body>
 <header class="nav"><a class="brand" href="index.html"><span class="brand-mark">CSK</span><span class="brand-text">ADVOGADOS</span></a><nav class="nav-links"><a href="index.html">Início</a><a href="noticias.html">Notícias</a><a href="index.html#contato">Contato</a></nav></header>
-<main class="wrap"><a class="back" href="noticias.html">← Todas as notícias</a><div id="status" class="status">Carregando notícia...</div><article id="article" hidden><div class="meta"><span id="date"></span><span>•</span><span id="category"></span></div><h1 class="title" id="title"></h1><p class="summary" id="summary"></p><img id="image" class="hero-image" alt=""><img id="innerImage" class="article-image" alt=""><div id="content" class="content"></div></article></main>
+<main class="wrap"><a class="back" href="noticias.html">← Todas as notícias</a><div id="status" class="status">Carregando notícia...</div><article id="article" hidden><div class="meta"><span id="date"></span><span>•</span><span id="category"></span></div><h1 class="title" id="title"></h1><p class="summary" id="summary"></p><img id="image" class="hero-image" alt=""><div id="content" class="content"></div></article></main>
 <footer><span>© <span id="year"></span> Cardoso Sena Kruschewsky Advogados.</span><a href="admin-noticias.html">Administração ↗</a></footer>
 <script>
-const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const $=id=>document.getElementById(id);const fmt=v=>v?new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(v)).replace(".","").toUpperCase():"";const safeUrl=u=>u&&/^https?:\/\//i.test(u)?u:"";
-function renderText(text){return String(text||"").split(/\n\s*\n|\n/).filter(Boolean).map(p=>`<p>${p.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}</p>`).join("")}
-(async()=>{const id=new URLSearchParams(location.search).get("id");if(!id){$("status").textContent="Notícia não encontrada.";return}const {data,error}=await db.from("noticias").select("*").eq("id",id).eq("publicada",true).maybeSingle();if(error||!data){$("status").textContent="Notícia não encontrada ou ainda não publicada.";return}$("status").style.display="none";$("article").hidden=false;$("title").textContent=data.titulo||"";$("summary").textContent=data.resumo||"";$("date").textContent=fmt(data.created_at);$("category").textContent=data.categoria||"";let body=String(data.conteudo||"");const marker=/\[\[IMAGEM_INTERNA:(https?:\/\/[^\]\s]+)\]\]/i.exec(body);const inner=marker?safeUrl(marker[1]):"";body=body.replace(marker?marker[0]:/a^/i,"");$("content").innerHTML=renderText(body);const cover=safeUrl(data.imagem_url);if(cover){$("image").src=cover;$("image").alt=data.titulo||"";$("image").style.display="block"}if(inner){$("innerImage").src=inner;$("innerImage").alt="Imagem da notícia";$("innerImage").style.display="block"}})();$("year").textContent=new Date().getFullYear();
-</script></body></html>
+const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";
+const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+const fmt=v=>v?new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(v)).replace(".","").toUpperCase():"";
+const safeUrl=u=>u&&/^https?:\/\//i.test(String(u).trim())?String(u).trim():"";
+
+function escapeHTML(value){return String(value||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
+
+function plainTextToHTML(text){
+  return String(text||"").split(/\n\s*\n|\n/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${escapeHTML(p)}</p>`).join("");
+}
+
+function convertLegacyImages(text){
+  return String(text||"").replace(/\[\[IMAGEM_INTERNA:(https?:\/\/[^\]\s]+)\]\]/gi,(match,url)=>`<p><img src="${escapeHTML(url)}" alt="Imagem da notícia" loading="lazy"></p>`);
+}
+
+function sanitizeArticleHTML(html){
+  const source=document.createElement("div");
+  source.innerHTML=convertLegacyImages(html);
+  const allowedTags=new Set(["P","BR","H2","H3","UL","OL","LI","STRONG","B","EM","I","U","BLOCKQUOTE","IMG","DIV"]);
+  const walk=node=>{
+    [...node.childNodes].forEach(child=>{
+      if(child.nodeType===Node.ELEMENT_NODE){
+        if(!allowedTags.has(child.tagName)){
+          const fragment=document.createDocumentFragment();
+          while(child.firstChild) fragment.appendChild(child.firstChild);
+          child.replaceWith(fragment);
+          walk(node);
+          return;
+        }
+        [...child.attributes].forEach(attr=>{
+          const name=attr.name.toLowerCase();
+          if(child.tagName!=="IMG" || !["src","alt","loading"].includes(name)) child.removeAttribute(attr.name);
+        });
+        if(child.tagName==="IMG"){
+          const url=safeUrl(child.getAttribute("src"));
+          if(!url) child.remove();
+          else {child.setAttribute("src",url);child.setAttribute("loading","lazy");}
+        }
+        walk(child);
+      }
+    });
+  };
+  walk(source);
+  return source.innerHTML;
+}
+
+function renderContent(raw){
+  const value=String(raw||"").trim();
+  if(!value)return "";
+  const looksLikeHTML=/<(?:p|div|br|h2|h3|ul|ol|li|strong|b|em|i|u|blockquote|img)\b[^>]*>/i.test(value);
+  return sanitizeArticleHTML(looksLikeHTML?value:plainTextToHTML(value));
+}
+
+(async()=>{
+  const id=new URLSearchParams(location.search).get("id");
+  if(!id){$("status").textContent="Notícia não encontrada.";return;}
+  const {data,error}=await db.from("noticias").select("*").eq("id",id).eq("publicada",true).maybeSingle();
+  if(error||!data){$("status").textContent="Notícia não encontrada ou ainda não publicada.";return;}
+  $("status").style.display="none";
+  $("article").hidden=false;
+  $("title").textContent=data.titulo||"";
+  $("summary").textContent=data.resumo||"";
+  $("date").textContent=fmt(data.created_at);
+  $("category").textContent=data.categoria||"";
+  $("content").innerHTML=renderContent(data.conteudo||"");
+  const cover=safeUrl(data.imagem_url);
+  if(cover){$("image").src=cover;$("image").alt=data.titulo||"";$("image").style.display="block";}
+  document.title=(data.titulo?data.titulo+" | ":"")+"CSK Advogados";
+})();
+$("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
