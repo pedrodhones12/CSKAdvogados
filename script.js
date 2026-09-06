@@ -5,22 +5,16 @@ document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 const menuToggle=document.querySelector(".menu-toggle"),nav=document.querySelector(".nav");
 menuToggle?.addEventListener("click",()=>{const open=nav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",open);});
 document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
-document.getElementById("year")?.textContent=new Date().getFullYear();
+const yearEl=document.getElementById("year");if(yearEl)yearEl.textContent=new Date().getFullYear();
 const form=document.getElementById("contactForm"),status=document.getElementById("formStatus");
 form?.addEventListener("submit",e=>{e.preventDefault();const data=new FormData(form);const name=data.get("name");if(status)status.textContent=`Obrigado, ${name}. Esta demonstração está pronta para conectar ao e-mail ou a um serviço de formulários.`;form.reset();});
 document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mousemove",e=>{const rect=card.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5;card.style.transform=`translateX(${x*8}px)`;}));
 document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mouseleave",()=>card.style.transform=""));
 
-/* =========================================================
-   CSK — NOTÍCIAS DINÂMICAS NA PÁGINA INICIAL
-   Notícias publicadas + marcadas para exibição na página inicial.
-   Cada clique abre a página individual da notícia.
-   ========================================================= */
 (() => {
   const grid=document.getElementById("newsGrid");
   const featured=document.querySelector(".news-featured");
   if(!grid || !featured) return;
-
   const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";
   const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";
   const load=()=>{
@@ -36,27 +30,13 @@ document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mou
       const link=id=>`noticia.html?id=${encodeURIComponent(id)}`;
       const first=news.find(n=>n.destaque)||news[0];
       const im=url(first.imagem_url);
-      featured.hidden=false;
-      featured.style.display="grid";
-      featured.dataset.category=first.categoria||"";
-      featured.dataset.title=first.titulo||"";
+      featured.hidden=false;featured.style.display="grid";featured.dataset.category=first.categoria||"";featured.dataset.title=first.titulo||"";
       featured.innerHTML=`<div class="news-featured-image">${im?`<img src="${esc(im)}" alt="${esc(first.titulo)}" style="width:100%;height:100%;object-fit:cover">`:`<div class="news-image-placeholder"><span>CSK</span><small>NOTÍCIA CSK</small></div>`}</div><div class="news-featured-content"><div class="news-meta"><span>${esc(fmt(first.created_at))}</span><span>•</span><span>${esc(first.categoria||"")}</span></div><h3>${esc(first.titulo)}</h3><p>${esc(first.resumo||"")}</p><a class="news-read" href="${link(first.id)}">Ler notícia <span>↗</span></a></div>`;
-      const cards=news.filter(n=>n.id!==first.id);
-      grid.innerHTML=cards.map(n=>{const ci=url(n.imagem_url);return `<article class="news-card reveal"><div class="news-card-image">${ci?`<img src="${esc(ci)}" alt="${esc(n.titulo)}" style="width:100%;height:100%;object-fit:cover">`:`<div class="news-image-placeholder compact"><span>CSK</span></div>`}</div><div class="news-card-body"><div class="news-meta"><span>${esc(fmt(n.created_at))}</span><span>${esc(n.categoria||"")}</span></div><h3>${esc(n.titulo)}</h3><p>${esc(n.resumo||"")}</p><a class="news-read" href="${link(n.id)}">Ler notícia <span>↗</span></a></div></article>`}).join("")||"<div style=\"grid-column:1/-1;padding:20px\"></div>";
-      document.querySelectorAll(".news-filter").forEach(btn=>btn.addEventListener("click",()=>{
-        const cat=btn.dataset.category||"Todas";
-        grid.querySelectorAll(".news-card").forEach(card=>{card.hidden=cat!=="Todas"&&(card.querySelector(".news-meta span:last-child")?.textContent!==cat)});
-        const fcat=featured.dataset.category||""; featured.hidden=cat!=="Todas"&&fcat!==cat;
-      }));
-      document.getElementById("newsSearch")?.addEventListener("input",e=>{
-        const term=e.target.value.toLowerCase().trim();
-        grid.querySelectorAll(".news-card").forEach(card=>{card.hidden=!!term&&!card.textContent.toLowerCase().includes(term)});
-        featured.hidden=!!term&&!featured.textContent.toLowerCase().includes(term);
-      });
+      grid.innerHTML=news.filter(n=>n.id!==first.id).map(n=>{const ci=url(n.imagem_url);return `<article class="news-card reveal"><div class="news-card-image">${ci?`<img src="${esc(ci)}" alt="${esc(n.titulo)}" style="width:100%;height:100%;object-fit:cover">`:`<div class="news-image-placeholder compact"><span>CSK</span></div>`}</div><div class="news-card-body"><div class="news-meta"><span>${esc(fmt(n.created_at))}</span><span>${esc(n.categoria||"")}</span></div><h3>${esc(n.titulo)}</h3><p>${esc(n.resumo||"")}</p><a class="news-read" href="${link(n.id)}">Ler notícia <span>↗</span></a></div></article>`}).join("");
+      document.querySelectorAll(".news-filter").forEach(btn=>btn.addEventListener("click",()=>{const c=btn.dataset.category||"Todas";grid.querySelectorAll(".news-card").forEach(card=>{const mc=card.querySelector(".news-meta span:last-child")?.textContent||"";card.hidden=c!=="Todas"&&mc!==c});featured.hidden=c!=="Todas"&&(featured.dataset.category||"")!==c;}));
+      document.getElementById("newsSearch")?.addEventListener("input",e=>{const t=e.target.value.toLowerCase().trim();grid.querySelectorAll(".news-card").forEach(card=>card.hidden=!!t&&!card.textContent.toLowerCase().includes(t));featured.hidden=!!t&&!featured.textContent.toLowerCase().includes(t);});
       document.querySelectorAll(".reveal").forEach(el=>{try{observer.observe(el)}catch(_){el.classList.add("show")}});
     });
   };
-  if(typeof supabase==="undefined"){
-    const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);
-  }else load();
+  if(typeof supabase==="undefined"){const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);}else load();
 })();
