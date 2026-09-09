@@ -7,11 +7,7 @@ menuToggle?.addEventListener("click",()=>{const open=nav.classList.toggle("open"
 document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
 const yearEl=document.getElementById("year");if(yearEl)yearEl.textContent=new Date().getFullYear();
 
-// =========================================================
-// WHATSAPP — BOTÃO PRINCIPAL DA PÁGINA INICIAL
-// Abre somente a conversa com o WhatsApp do escritório.
-// A mensagem de boas-vindas deve ser configurada no WhatsApp Business.
-// =========================================================
+// WHATSAPP
 const WHATSAPP_NUMBER="557130430188";
 const whatsappUrl=`https://wa.me/${WHATSAPP_NUMBER}`;
 document.querySelectorAll('.hero-actions .button-primary').forEach(button=>{
@@ -20,11 +16,7 @@ document.querySelectorAll('.hero-actions .button-primary').forEach(button=>{
   button.setAttribute('rel','noopener noreferrer');
 });
 
-// =========================================================
-// FORMULÁRIO DE CONTATO — CSK
-// Abre diretamente a tela de composição do Gmail, já com
-// o destinatário, assunto e mensagem preenchidos.
-// =========================================================
+// FORMULÁRIO DE CONTATO
 const form=document.getElementById("contactForm"),status=document.getElementById("formStatus");
 const CONTACT_EMAIL="adm@cskadvogados.com.br";
 form?.addEventListener("submit",e=>{
@@ -33,23 +25,10 @@ form?.addEventListener("submit",e=>{
   const name=String(data.get("name")||"").trim();
   const email=String(data.get("email")||"").trim();
   const message=String(data.get("message")||"").trim();
-
-  if(!name||!email||!message){
-    if(status)status.textContent="Preencha nome, e-mail e mensagem para continuar.";
-    return;
-  }
-
+  if(!name||!email||!message){if(status)status.textContent="Preencha nome, e-mail e mensagem para continuar.";return;}
   const subject=`Contato pelo site CSK — ${name}`;
-  const body=[
-    `Nome: ${name}`,
-    `E-mail: ${email}`,
-    "",
-    "Mensagem:",
-    message
-  ].join("\n");
-
+  const body=[`Nome: ${name}`,`E-mail: ${email}`,"","Mensagem:",message].join("\n");
   const gmailUrl=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
   if(status)status.textContent="Abrindo o Gmail do escritório...";
   window.location.href=gmailUrl;
 });
@@ -89,28 +68,34 @@ document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mou
   if(typeof supabase==="undefined"){const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);}else load();
 })();
 
-// =========================================================
-// RODAPÉ — LOGO CSK
-// Usa a mesma marca disponível no repositório e cria uma
-// apresentação semelhante ao modelo de referência enviado.
-// =========================================================
+// RODAPÉ — LOGO NO MESMO ESTILO DO MODELO DE REFERÊNCIA
 (() => {
   const footerBrand=document.querySelector("footer .footer-brand");
   if(!footerBrand) return;
 
   footerBrand.setAttribute("aria-label","CSK Advogados");
-  footerBrand.style.width="320px";
-  footerBrand.style.height="72px";
-  footerBrand.style.display="flex";
-  footerBrand.style.alignItems="center";
+  footerBrand.textContent="";
+  footerBrand.style.width="390px";
+  footerBrand.style.height="96px";
+  footerBrand.style.display="block";
   footerBrand.style.flexShrink="0";
-  footerBrand.style.backgroundImage='url("assets/file_0000000065d4820e98d8dd7601e8be13.png")';
+  footerBrand.style.backgroundImage='url("assets/logo-csk.jpeg")';
   footerBrand.style.backgroundRepeat="no-repeat";
   footerBrand.style.backgroundPosition="left center";
   footerBrand.style.backgroundSize="contain";
 
-  const mark=footerBrand.querySelector(".brand-mark");
-  const text=footerBrand.querySelector(".brand-text");
-  if(mark)mark.style.display="none";
-  if(text)text.style.display="none";
+  const footer=footerBrand.closest("footer");
+  if(footer){
+    footer.style.background="#0b0f14";
+    footer.style.padding="1.2rem 5vw";
+  }
+
+  const footerTop=footerBrand.closest(".footer-top");
+  if(footerTop){
+    footerTop.style.minHeight="100px";
+    footerTop.style.alignItems="center";
+  }
+
+  const footerBottom=footer?.querySelector(".footer-bottom");
+  if(footerBottom){footerBottom.style.paddingTop="1rem";}
 })();
