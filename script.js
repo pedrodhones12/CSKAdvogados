@@ -88,3 +88,29 @@ document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mou
   };
   if(typeof supabase==="undefined"){const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);}else load();
 })();
+
+// =========================================================
+// RODAPÉ — LOGO CSK
+// Usa a mesma marca disponível no repositório e cria uma
+// apresentação semelhante ao modelo de referência enviado.
+// =========================================================
+(() => {
+  const footerBrand=document.querySelector("footer .footer-brand");
+  if(!footerBrand) return;
+
+  footerBrand.setAttribute("aria-label","CSK Advogados");
+  footerBrand.style.width="320px";
+  footerBrand.style.height="72px";
+  footerBrand.style.display="flex";
+  footerBrand.style.alignItems="center";
+  footerBrand.style.flexShrink="0";
+  footerBrand.style.backgroundImage='url("assets/file_0000000065d4820e98d8dd7601e8be13.png")';
+  footerBrand.style.backgroundRepeat="no-repeat";
+  footerBrand.style.backgroundPosition="left center";
+  footerBrand.style.backgroundSize="contain";
+
+  const mark=footerBrand.querySelector(".brand-mark");
+  const text=footerBrand.querySelector(".brand-text");
+  if(mark)mark.style.display="none";
+  if(text)text.style.display="none";
+})();
