@@ -68,34 +68,87 @@ document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mou
   if(typeof supabase==="undefined"){const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);}else load();
 })();
 
-// RODAPÉ — LOGO NO MESMO ESTILO DO MODELO DE REFERÊNCIA
+// RODAPÉ — LOGO COMPOSTA NO MESMO ESTILO DA REFERÊNCIA
 (() => {
   const footerBrand=document.querySelector("footer .footer-brand");
-  if(!footerBrand) return;
+  const footer=document.querySelector("footer");
+  if(!footerBrand || !footer) return;
 
+  footerBrand.innerHTML=`
+    <span class="footer-csk-mark" aria-hidden="true">CSK</span>
+    <span class="footer-csk-divider" aria-hidden="true"></span>
+    <span class="footer-csk-name">ADVOGADOS</span>
+  `;
   footerBrand.setAttribute("aria-label","CSK Advogados");
-  footerBrand.textContent="";
-  footerBrand.style.width="390px";
-  footerBrand.style.height="96px";
-  footerBrand.style.display="block";
-  footerBrand.style.flexShrink="0";
-  footerBrand.style.backgroundImage='url("assets/logo-csk.jpeg")';
-  footerBrand.style.backgroundRepeat="no-repeat";
-  footerBrand.style.backgroundPosition="left center";
-  footerBrand.style.backgroundSize="contain";
 
-  const footer=footerBrand.closest("footer");
-  if(footer){
-    footer.style.background="#0b0f14";
-    footer.style.padding="1.2rem 5vw";
-  }
+  Object.assign(footerBrand.style,{
+    display:"flex",
+    alignItems:"center",
+    gap:"20px",
+    width:"390px",
+    height:"88px",
+    flexShrink:"0",
+    color:"#b9c9dc"
+  });
+
+  const mark=footerBrand.querySelector(".footer-csk-mark");
+  Object.assign(mark.style,{
+    width:"68px",
+    height:"68px",
+    borderRadius:"50%",
+    display:"grid",
+    placeItems:"center",
+    background:"#f1f3f5",
+    color:"#17243a",
+    fontFamily:'"Playfair Display", serif',
+    fontSize:"28px",
+    letterSpacing:"-0.12em",
+    lineHeight:"1",
+    paddingRight:"5px",
+    boxSizing:"border-box"
+  });
+
+  const divider=footerBrand.querySelector(".footer-csk-divider");
+  Object.assign(divider.style,{
+    width:"1px",
+    height:"62px",
+    background:"#9eb2ca",
+    opacity:".95"
+  });
+
+  const name=footerBrand.querySelector(".footer-csk-name");
+  Object.assign(name.style,{
+    color:"#b9c9dc",
+    fontFamily:'"DM Sans", sans-serif',
+    fontSize:"20px",
+    fontWeight:"500",
+    letterSpacing:".32em",
+    lineHeight:"1",
+    whiteSpace:"nowrap"
+  });
+
+  Object.assign(footer.style,{
+    background:"#0b1118",
+    color:"#8994a4",
+    padding:"1.5rem 5vw"
+  });
 
   const footerTop=footerBrand.closest(".footer-top");
   if(footerTop){
-    footerTop.style.minHeight="100px";
-    footerTop.style.alignItems="center";
+    Object.assign(footerTop.style,{minHeight:"104px",alignItems:"center"});
   }
 
-  const footerBottom=footer?.querySelector(".footer-bottom");
-  if(footerBottom){footerBottom.style.paddingTop="1rem";}
+  const footerBottom=footer.querySelector(".footer-bottom");
+  if(footerBottom) footerBottom.style.paddingTop="1.2rem";
+
+  const style=document.createElement("style");
+  style.textContent=`
+    @media (max-width:820px){
+      footer .footer-brand{width:100%;height:74px;gap:12px}
+      footer .footer-csk-mark{width:54px!important;height:54px!important;font-size:23px!important}
+      footer .footer-csk-divider{height:48px!important}
+      footer .footer-csk-name{font-size:14px!important;letter-spacing:.24em!important}
+    }
+  `;
+  document.head.appendChild(style);
 })();
