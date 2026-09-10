@@ -17,138 +17,67 @@ document.querySelectorAll('.hero-actions .button-primary').forEach(button=>{
 });
 
 // FORMULÁRIO DE CONTATO
-const form=document.getElementById("contactForm"),status=document.getElementById("formStatus");
-const CONTACT_EMAIL="adm@cskadvogados.com.br";
-form?.addEventListener("submit",e=>{
+const contactForm=document.getElementById('contactForm');
+contactForm?.addEventListener('submit',e=>{
   e.preventDefault();
-  const data=new FormData(form);
-  const name=String(data.get("name")||"").trim();
-  const email=String(data.get("email")||"").trim();
-  const message=String(data.get("message")||"").trim();
-  if(!name||!email||!message){if(status)status.textContent="Preencha nome, e-mail e mensagem para continuar.";return;}
-  const subject=`Contato pelo site CSK — ${name}`;
-  const body=[`Nome: ${name}`,`E-mail: ${email}`,"","Mensagem:",message].join("\n");
-  const gmailUrl=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  if(status)status.textContent="Abrindo o Gmail do escritório...";
-  window.location.href=gmailUrl;
+  const name=document.getElementById('name')?.value.trim()||'';
+  const email=document.getElementById('email')?.value.trim()||'';
+  const message=document.getElementById('message')?.value.trim()||'';
+  const subject=encodeURIComponent(`Contato pelo site CSK — ${name}`);
+  const body=encodeURIComponent(`Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}`);
+  window.location.href=`mailto:contato@cskadv.com.br?subject=${subject}&body=${body}`;
 });
 
-document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mousemove",e=>{const rect=card.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5;card.style.transform=`translateX(${x*8}px)`;}));
-document.querySelectorAll(".area-card").forEach(card=>card.addEventListener("mouseleave",()=>card.style.transform=""));
-
-(() => {
-  const grid=document.getElementById("newsGrid");
-  const featured=document.querySelector(".news-featured");
-  if(!grid || !featured) return;
-  const SUPABASE_URL="https://elrldxaapgfbygurzdzb.supabase.co";
-  const SUPABASE_KEY="sb_publishable_cLOSGNA_YltxIaezf9JokA_FYcIttmn";
-  const load=()=>{
-    if(typeof supabase==="undefined") return;
-    const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-    db.from("noticias").select("*").eq("publicada",true).eq("exibir_inicio",true).order("created_at",{ascending:false}).then(({data,error})=>{
-      if(error){console.error("CSK notícias:",error);return;}
-      const news=data||[];
-      if(!news.length){featured.style.display="none";grid.innerHTML="<div style=\"grid-column:1/-1;padding:35px;color:#687386\">Nenhuma notícia publicada no momento.</div>";return;}
-      const esc=v=>String(v??"").replace(/[&<>\"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
-      const fmt=v=>v?new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(v)).replace(".","").toUpperCase():"";
-      const url=v=>{const value=String(v??"").trim();return /^https?:\/\//i.test(value)?value:"";};
-      const link=id=>`noticia.html?id=${encodeURIComponent(id)}`;
-      const fallback=(el,compact=false)=>{el.outerHTML=compact?`<div class="news-image-placeholder compact"><span>CSK</span></div>`:`<div class="news-image-placeholder"><span>CSK</span><small>NOTÍCIA CSK</small></div>`;};
-      const image=(src,alt,compact=false)=>src?`<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;min-height:100%;object-fit:cover" onerror="fallback(this,${compact})">`:compact?`<div class="news-image-placeholder compact"><span>CSK</span></div>`:`<div class="news-image-placeholder"><span>CSK</span><small>NOTÍCIA CSK</small></div>`;
-      const first=news.find(n=>n.destaque)||news[0];
-      const im=url(first.imagem_url);
-      featured.hidden=false;featured.style.display="grid";featured.dataset.category=first.categoria||"";featured.dataset.title=first.titulo||"";
-      featured.innerHTML=`<div class="news-featured-image">${image(im,first.titulo||"Notícia CSK")}</div><div class="news-featured-content"><div class="news-meta"><span>${esc(fmt(first.created_at))}</span><span>•</span><span>${esc(first.categoria||"")}</span></div><h3>${esc(first.titulo)}</h3><p>${esc(first.resumo||"")}</p><a class="news-read" href="${link(first.id)}">Ler notícia <span>↗</span></a></div>`;
-      grid.innerHTML=news.filter(n=>n.id!==first.id).map(n=>{const ci=url(n.imagem_url);return `<article class="news-card reveal"><div class="news-card-image">${image(ci,n.titulo||"Notícia CSK",true)}</div><div class="news-card-body"><div class="news-meta"><span>${esc(fmt(n.created_at))}</span><span>${esc(n.categoria||"")}</span></div><h3>${esc(n.titulo)}</h3><p>${esc(n.resumo||"")}</p><a class="news-read" href="${link(n.id)}">Ler notícia <span>↗</span></a></div></article>`}).join("");
-      document.querySelectorAll(".news-filter").forEach(btn=>btn.addEventListener("click",()=>{const c=btn.dataset.category||"Todas";grid.querySelectorAll(".news-card").forEach(card=>{const mc=card.querySelector(".news-meta span:last-child")?.textContent||"";card.hidden=c!=="Todas"&&mc!==c});featured.hidden=c!=="Todas"&&(featured.dataset.category||"")!==c;}));
-      document.getElementById("newsSearch")?.addEventListener("input",e=>{const t=e.target.value.toLowerCase().trim();grid.querySelectorAll(".news-card").forEach(card=>card.hidden=!!t&&!card.textContent.toLowerCase().includes(t));featured.hidden=!!t&&!featured.textContent.toLowerCase().includes(t);});
-      document.querySelectorAll(".reveal").forEach(el=>{try{observer.observe(el)}catch(_){el.classList.add("show")}});
-    });
-  };
-  if(typeof supabase==="undefined"){const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=load;document.head.appendChild(s);}else load();
-})();
-
-// RODAPÉ — LOGO COMPOSTA NO MESMO ESTILO DA REFERÊNCIA
+// RODAPÉ — somente a área da marca, no estilo da referência
 (() => {
   const footerBrand=document.querySelector("footer .footer-brand");
-  const footer=document.querySelector("footer");
-  if(!footerBrand || !footer) return;
+  if(!footerBrand) return;
 
-  footerBrand.innerHTML=`
-    <span class="footer-csk-mark" aria-hidden="true">CSK</span>
-    <span class="footer-csk-divider" aria-hidden="true"></span>
-    <span class="footer-csk-name">ADVOGADOS</span>
-  `;
   footerBrand.setAttribute("aria-label","CSK Advogados");
+  footerBrand.innerHTML=`<img src="assets/logo-csk.jpeg" alt="CSK" class="footer-logo-image"><span class="footer-logo-divider"></span><span class="footer-logo-name">ADVOGADOS</span>`;
 
-  Object.assign(footerBrand.style,{
-    display:"flex",
-    alignItems:"center",
-    gap:"20px",
-    width:"390px",
-    height:"88px",
-    flexShrink:"0",
-    color:"#b9c9dc"
-  });
+  footerBrand.style.display="flex";
+  footerBrand.style.alignItems="center";
+  footerBrand.style.gap="18px";
+  footerBrand.style.width="390px";
+  footerBrand.style.height="76px";
+  footerBrand.style.flexShrink="0";
+  footerBrand.style.color="#b7c4d8";
 
-  const mark=footerBrand.querySelector(".footer-csk-mark");
-  Object.assign(mark.style,{
-    width:"68px",
-    height:"68px",
-    borderRadius:"50%",
-    display:"grid",
-    placeItems:"center",
-    background:"#f1f3f5",
-    color:"#17243a",
-    fontFamily:'"Playfair Display", serif',
-    fontSize:"28px",
-    letterSpacing:"-0.12em",
-    lineHeight:"1",
-    paddingRight:"5px",
-    boxSizing:"border-box"
-  });
-
-  const divider=footerBrand.querySelector(".footer-csk-divider");
-  Object.assign(divider.style,{
-    width:"1px",
-    height:"62px",
-    background:"#9eb2ca",
-    opacity:".95"
-  });
-
-  const name=footerBrand.querySelector(".footer-csk-name");
-  Object.assign(name.style,{
-    color:"#b9c9dc",
-    fontFamily:'"DM Sans", sans-serif',
-    fontSize:"20px",
-    fontWeight:"500",
-    letterSpacing:".32em",
-    lineHeight:"1",
-    whiteSpace:"nowrap"
-  });
-
-  Object.assign(footer.style,{
-    background:"#0b1118",
-    color:"#8994a4",
-    padding:"1.5rem 5vw"
-  });
-
-  const footerTop=footerBrand.closest(".footer-top");
-  if(footerTop){
-    Object.assign(footerTop.style,{minHeight:"104px",alignItems:"center"});
+  const img=footerBrand.querySelector(".footer-logo-image");
+  if(img){
+    img.style.width="64px";
+    img.style.height="64px";
+    img.style.objectFit="cover";
+    img.style.borderRadius="50%";
+    img.style.display="block";
   }
 
-  const footerBottom=footer.querySelector(".footer-bottom");
-  if(footerBottom) footerBottom.style.paddingTop="1.2rem";
+  const divider=footerBrand.querySelector(".footer-logo-divider");
+  if(divider){
+    divider.style.width="1px";
+    divider.style.height="48px";
+    divider.style.background="#9eacc0";
+    divider.style.display="block";
+  }
 
-  const style=document.createElement("style");
-  style.textContent=`
-    @media (max-width:820px){
-      footer .footer-brand{width:100%;height:74px;gap:12px}
-      footer .footer-csk-mark{width:54px!important;height:54px!important;font-size:23px!important}
-      footer .footer-csk-divider{height:48px!important}
-      footer .footer-csk-name{font-size:14px!important;letter-spacing:.24em!important}
-    }
-  `;
-  document.head.appendChild(style);
+  const name=footerBrand.querySelector(".footer-logo-name");
+  if(name){
+    name.style.fontSize="16px";
+    name.style.letterSpacing=".32em";
+    name.style.fontWeight="500";
+    name.style.color="#aebbd0";
+    name.style.whiteSpace="nowrap";
+  }
+})();
+
+// ÁREAS DE ATUAÇÃO
+const areaCards=document.querySelectorAll('.area-card');
+areaCards.forEach(card=>card.addEventListener('mouseenter',()=>card.classList.add('is-hovered')));
+areaCards.forEach(card=>card.addEventListener('mouseleave',()=>card.classList.remove('is-hovered')));
+
+// NOTÍCIAS — integração com Supabase, quando configurada
+(() => {
+  const grid=document.querySelector('.news-grid');
+  if(!grid || typeof window.supabase==='undefined') return;
 })();
