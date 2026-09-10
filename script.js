@@ -113,6 +113,27 @@ contactForm?.addEventListener('submit',e=>{
   }
 })();
 
+// CORES CONSISTENTES NO CELULAR — impede que o navegador aplique uma paleta diferente da versão desktop
+(() => {
+  const root=document.documentElement;
+  root.style.colorScheme="light";
+  const applyMobilePalette=()=>{
+    if(window.innerWidth<=820){
+      document.body.style.background="#eeece8";
+      document.body.style.color="#111827";
+      document.querySelectorAll(".hero").forEach(el=>{
+        el.style.background="linear-gradient(115deg,#eeece8 0%,#e9e7e3 56%,#d8dde4 100%)";
+        el.style.color="#111827";
+      });
+      document.querySelectorAll(".areas").forEach(el=>el.style.background="#e4e2de");
+      document.querySelectorAll(".manifesto,.team").forEach(el=>el.style.background="#17243a");
+      document.querySelectorAll(".contact,footer").forEach(el=>el.style.background="#0b1524");
+    }
+  };
+  applyMobilePalette();
+  window.addEventListener("resize",applyMobilePalette);
+})();
+
 // ÁREAS DE ATUAÇÃO
 const areaCards=document.querySelectorAll('.area-card');
 areaCards.forEach(card=>card.addEventListener('mouseenter',()=>card.classList.add('is-hovered')));
