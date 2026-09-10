@@ -71,6 +71,48 @@ contactForm?.addEventListener('submit',e=>{
   }
 })();
 
+// TOPO — mesma marca visual usada no rodapé, sem alterar o restante do cabeçalho
+(() => {
+  const headerBrand=document.querySelector("header .brand");
+  if(!headerBrand) return;
+
+  headerBrand.setAttribute("aria-label","CSK início");
+  headerBrand.innerHTML=`<img src="assets/logo-csk.jpeg" alt="CSK" class="header-logo-image"><span class="header-logo-divider"></span><span class="header-logo-name">ADVOGADOS</span>`;
+  headerBrand.style.display="flex";
+  headerBrand.style.alignItems="center";
+  headerBrand.style.gap="12px";
+  headerBrand.style.width="280px";
+  headerBrand.style.height="58px";
+  headerBrand.style.flexShrink="0";
+  headerBrand.style.textDecoration="none";
+
+  const img=headerBrand.querySelector(".header-logo-image");
+  if(img){
+    img.style.width="48px";
+    img.style.height="48px";
+    img.style.objectFit="cover";
+    img.style.borderRadius="50%";
+    img.style.display="block";
+  }
+
+  const divider=headerBrand.querySelector(".header-logo-divider");
+  if(divider){
+    divider.style.width="1px";
+    divider.style.height="36px";
+    divider.style.background="#9eacc0";
+    divider.style.display="block";
+  }
+
+  const name=headerBrand.querySelector(".header-logo-name");
+  if(name){
+    name.style.fontSize="12px";
+    name.style.letterSpacing=".25em";
+    name.style.fontWeight="500";
+    name.style.color="#aebbd0";
+    name.style.whiteSpace="nowrap";
+  }
+})();
+
 // ÁREAS DE ATUAÇÃO
 const areaCards=document.querySelectorAll('.area-card');
 areaCards.forEach(card=>card.addEventListener('mouseenter',()=>card.classList.add('is-hovered')));
