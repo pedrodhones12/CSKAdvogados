@@ -1,0 +1,101 @@
+name: Generate professional URLs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  pretty-urls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate clean URL pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          pages = {
+              'equipe.html': 'equipe',
+              'noticias.html': 'noticias',
+              'noticia.html': 'noticia',
+              'parceiros.html': 'parceiros',
+          }
+
+          replacements = [
+              (r'href=["\']index\.html#', 'href="/#'),
+              (r'href=["\']index\.html["\']', 'href="/"'),
+              (r'href=["\']equipe\.html["\']', 'href="/equipe/"'),
+              (r'href=["\']noticias\.html["\']', 'href="/noticias/"'),
+              (r'href=["\']parceiros\.html["\']', 'href="/parceiros/"'),
+              (r'href=["\']noticia\.html\?id=', 'href="/noticia/?id='),
+              (r'href=["\']noticia\.html["\']', 'href="/noticia/"'),
+          ]
+
+          for source, slug in pages.items():
+              path = Path(source)
+              if not path.exists():
+                  continue
+
+              text = path.read_text(encoding='utf-8')
+
+              # Make all public navigation point to the clean URLs.
+              for pattern, replacement in replacements:
+                  text = re.sub(pattern, replacement, text)
+
+              # Canonical URL tells search engines that the clean URL is preferred.
+              canonical = f'<link rel="canonical" href="https://cskadv.com.br/{slug}/">'
+              if 'rel="canonical"' in text:
+                  text = re.sub(r'<link[^>]+rel=["\']canonical["\'][^>]*>', canonical, text, count=1)
+              else:
+                  text = text.replace('</head>', f'  {canonical}\n</head>', 1)
+
+              # Update the source page itself as well.
+              path.write_text(text, encoding='utf-8')
+
+              # Create the directory URL: /slug/
+              out = Path(slug) / 'index.html'
+              out.parent.mkdir(parents=True, exist_ok=True)
+              clean = text
+
+              # Directory pages need absolute paths for root-level assets.
+              clean = re.sub(r'(src|href)=["\']assets/', r'\1="/assets/', clean)
+              clean = re.sub(r'(src|href)=["\'](?:\./)?i18n\.js["\']', r'\1="/i18n.js"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?style\.css["\']', 'href="/style.css"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?equipe\.css["\']', 'href="/equipe.css"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?index\.html#', 'href="/#', clean)
+              clean = re.sub(r'href=["\'](?:\./)?index\.html["\']', 'href="/"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?equipe\.html["\']', 'href="/equipe/"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?noticias\.html["\']', 'href="/noticias/"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?parceiros\.html["\']', 'href="/parceiros/"', clean)
+              clean = re.sub(r'href=["\'](?:\./)?noticia\.html\?id=', 'href="/noticia/?id=', clean)
+              clean = re.sub(r'href=["\'](?:\./)?noticia\.html["\']', 'href="/noticia/"', clean)
+
+              out.write_text(clean, encoding='utf-8')
+
+          # The home page should also expose only clean public navigation.
+          home = Path('index.html')
+          if home.exists():
+              text = home.read_text(encoding='utf-8')
+              for pattern, replacement in replacements:
+                  text = re.sub(pattern, replacement, text)
+              home.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit generated URLs
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Create clean professional URLs'
+          git push
