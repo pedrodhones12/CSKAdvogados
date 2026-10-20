@@ -34,6 +34,20 @@
     .note-icon{font-size:1.5rem;color:#58758d}
     .hero-note p{font-family:"Playfair Display",serif;font-size:1.45rem;line-height:1.35;margin-top:1rem}
     .hero-note small{display:block;margin-top:1rem;color:var(--muted);font-size:.66rem;letter-spacing:.1em}
+    .insight-orbit{position:absolute;top:4.5rem;right:7%;width:min(34vw,390px);height:330px;pointer-events:none;z-index:2}
+    .lens-halo{position:absolute;width:174px;height:174px;left:50%;top:48%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(83,116,145,.24);background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.9),rgba(196,218,232,.28) 45%,rgba(255,255,255,.1) 72%);box-shadow:0 18px 55px rgba(62,91,119,.1),inset 0 0 28px rgba(255,255,255,.7);backdrop-filter:blur(5px);animation:lensFloat 6s ease-in-out infinite}
+    .lens-halo:before,.lens-halo:after{content:"";position:absolute;border:1px solid rgba(83,116,145,.14);border-radius:50%;inset:13px}
+    .lens-halo:after{inset:27px;border-style:dashed;animation:orbitSpin 28s linear infinite}
+    .lens-glass{position:absolute;left:50%;top:46%;width:66px;height:66px;border:3px solid #3f6382;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(174,207,227,.24));box-shadow:inset 0 0 15px rgba(89,130,160,.15),0 0 0 8px rgba(255,255,255,.25)}
+    .lens-glass:after{content:"";position:absolute;width:32px;height:5px;right:-23px;bottom:-12px;border-radius:99px;background:#3f6382;transform:rotate(48deg);transform-origin:left center;box-shadow:0 3px 8px rgba(23,36,58,.12)}
+    .lens-glint{position:absolute;top:13px;left:25px;width:34px;height:34px;border-radius:50%;border-top:1px solid rgba(255,255,255,.95);transform:rotate(-28deg)}
+    .orbit-word{position:absolute;display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid rgba(255,255,255,.86);border-radius:99px;background:rgba(255,255,255,.65);box-shadow:0 12px 28px rgba(43,66,91,.09);backdrop-filter:blur(14px);color:#344f6b;font-size:.68rem;font-weight:600;letter-spacing:.025em;white-space:nowrap;animation:wordDrift 5s ease-in-out infinite}
+    .orbit-word:before{content:"";width:6px;height:6px;border-radius:50%;background:#91b4cc;box-shadow:0 0 10px rgba(96,147,181,.7)}
+    .orbit-word.w1{top:15px;left:3%;animation-delay:-.8s}.orbit-word.w2{top:84px;right:0;animation-delay:-2.1s}.orbit-word.w3{bottom:66px;left:0;animation-delay:-3s}.orbit-word.w4{bottom:13px;right:4%;animation-delay:-1.4s}
+    .orbit-caption{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);font-size:.54rem;letter-spacing:.19em;font-weight:700;color:#8192a4;white-space:nowrap}
+    @keyframes lensFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-9px)}}
+    @keyframes orbitSpin{to{transform:rotate(360deg)}}
+    @keyframes wordDrift{0%,100%{translate:0 0;opacity:.88}50%{translate:0 -9px;opacity:1}}
     .content{padding:1rem 6vw 7rem;display:grid;grid-template-columns:.75fr 1fr;gap:4rem;align-items:start}
     .intro{position:sticky;top:2rem;padding-top:1rem}
     .intro h2{font-size:clamp(2.4rem,4vw,4.2rem);line-height:1.02;letter-spacing:-.045em;margin:1.2rem 0}
@@ -61,9 +75,9 @@
     .privacy{text-align:center;color:var(--muted);font-size:.64rem;line-height:1.7;margin:1rem auto 0;max-width:340px}
     footer{padding:1.5rem 6vw;background:var(--ink);color:#c5cfdb;display:flex;justify-content:space-between;gap:1rem;align-items:center;font-size:.65rem;letter-spacing:.04em}
 
-    @media(max-width:850px){.hero{grid-template-columns:1fr;gap:2rem}.hero-note{max-width:500px}.content{grid-template-columns:1fr;gap:2rem}.intro{position:static}.signal-list{grid-template-columns:1fr 1fr}.hero{padding-top:4rem}}
-    @media(max-width:520px){header{height:74px;padding:0 5vw}.brand-mark{font-size:1.9rem}.brand-name{font-size:.52rem}.back{font-size:.67rem;padding:.65rem .8rem}.hero,.content{padding-left:5vw;padding-right:5vw}.hero{padding-top:3.5rem}.hero-note p{font-size:1.25rem}.signal-list{grid-template-columns:1fr}.form-card{border-radius:20px}.whatsapp-float{right:14px;bottom:14px;padding:.75rem}.whatsapp-float span{display:none}footer{align-items:flex-start;flex-direction:column}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+    @media(max-width:850px){.hero{grid-template-columns:1fr;gap:2rem}.hero-note{max-width:500px}.insight-orbit{position:relative;top:auto;right:auto;width:min(100%,390px);height:260px;margin:0 auto -1rem;grid-row:2}.hero-note{grid-row:3}.content{grid-template-columns:1fr;gap:2rem}.intro{position:static}.signal-list{grid-template-columns:1fr 1fr}.hero{padding-top:4rem}}
+    @media(max-width:520px){header{height:74px;padding:0 5vw}.brand-mark{font-size:1.9rem}.brand-name{font-size:.52rem}.back{font-size:.67rem;padding:.65rem .8rem}.hero,.content{padding-left:5vw;padding-right:5vw}.hero{padding-top:3.5rem}.hero-note p{font-size:1.25rem}.signal-list{grid-template-columns:1fr}.form-card{border-radius:20px}.insight-orbit{height:235px}.lens-halo{width:145px;height:145px}.orbit-word{font-size:.61rem;padding:8px 10px}.orbit-word.w2{right:0}.orbit-caption{font-size:.48rem}footer{align-items:flex-start;flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
   </style>
 </head>
 <body>
@@ -78,6 +92,14 @@
         <div class="eyebrow">ATUAÇÃO · ESTRATÉGIA EMPRESARIAL</div>
         <h1>Talvez sua empresa<br>não precise de<br><em>mais uma ideia.</em></h1>
         <p>Talvez precise descobrir qual ideia realmente merece virar projeto. Se sua empresa já possui uma operação estabelecida e você sente que existem gargalos, oportunidades ou projetos importantes ficando sem atenção, queremos entender o que está acontecendo.</p>
+      </div>
+      <div class="insight-orbit" aria-label="Conceitos de estratégia e inovação em movimento">
+        <span class="orbit-word w1">Estratégia</span>
+        <span class="orbit-word w2">Novas oportunidades</span>
+        <span class="orbit-word w3">Inovação</span>
+        <span class="orbit-word w4">Lucro sustentável</span>
+        <div class="lens-halo" aria-hidden="true"><div class="lens-glass"><span class="lens-glint"></span></div></div>
+        <span class="orbit-caption">ENXERGUE NOVAS POSSIBILIDADES</span>
       </div>
       <aside class="hero-note">
         <div class="note-icon">◎ ↗</div>
@@ -118,6 +140,20 @@
   </main>
   <footer><span>© <span id="year"></span> CSK Estratégia e Inovação</span><a href="/#topo">Voltar ao início ↑</a></footer>
   <script>
+    // Palavras-chave que circulam na lente estratégica da página.
+    const orbitWords = ['Estratégia','Inovação','Novas oportunidades','Importação','Exportação','Lucro sustentável','Transformação digital','Crescimento'];
+    const orbitEls = Array.from(document.querySelectorAll('.orbit-word'));
+    let orbitIndex = 0;
+    window.setInterval(() => {
+      if (!orbitEls.length || document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      orbitIndex = (orbitIndex + 1) % orbitWords.length;
+      orbitEls.forEach((el, i) => {
+        el.animate([{opacity:1, transform:'translateY(0)'},{opacity:0, transform:'translateY(8px)'}], {duration:220,fill:'forwards'}).onfinish = () => {
+          el.textContent = orbitWords[(orbitIndex + i) % orbitWords.length];
+          el.animate([{opacity:0, transform:'translateY(-7px)'},{opacity:1, transform:'translateY(0)'}], {duration:360,fill:'forwards'});
+        };
+      });
+    }, 2600);
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('companyForm').addEventListener('submit', function(event) {
       event.preventDefault();
