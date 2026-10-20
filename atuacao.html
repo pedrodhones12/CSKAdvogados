@@ -60,9 +60,7 @@
     .submit-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--ink);font-size:1.1rem}
     .privacy{text-align:center;color:var(--muted);font-size:.64rem;line-height:1.7;margin:1rem auto 0;max-width:340px}
     footer{padding:1.5rem 6vw;background:var(--ink);color:#c5cfdb;display:flex;justify-content:space-between;gap:1rem;align-items:center;font-size:.65rem;letter-spacing:.04em}
-    .whatsapp-float{position:fixed;z-index:10;right:24px;bottom:24px;display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;border-radius:99px;background:#17243a;color:#fff;text-decoration:none;font-size:.72rem;font-weight:600;box-shadow:0 12px 35px rgba(23,36,58,.25);border:1px solid rgba(255,255,255,.24);transition:transform .25s}
-    .whatsapp-float:hover{transform:translateY(-4px)}
-    .whatsapp-float b{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#d7e5ec;color:#17243a;font-size:.8rem}
+
     @media(max-width:850px){.hero{grid-template-columns:1fr;gap:2rem}.hero-note{max-width:500px}.content{grid-template-columns:1fr;gap:2rem}.intro{position:static}.signal-list{grid-template-columns:1fr 1fr}.hero{padding-top:4rem}}
     @media(max-width:520px){header{height:74px;padding:0 5vw}.brand-mark{font-size:1.9rem}.brand-name{font-size:.52rem}.back{font-size:.67rem;padding:.65rem .8rem}.hero,.content{padding-left:5vw;padding-right:5vw}.hero{padding-top:3.5rem}.hero-note p{font-size:1.25rem}.signal-list{grid-template-columns:1fr}.form-card{border-radius:20px}.whatsapp-float{right:14px;bottom:14px;padding:.75rem}.whatsapp-float span{display:none}footer{align-items:flex-start;flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
@@ -119,7 +117,6 @@
     </section>
   </main>
   <footer><span>© <span id="year"></span> CSK Estratégia e Inovação</span><a href="/#topo">Voltar ao início ↑</a></footer>
-  <a class="whatsapp-float" href="https://wa.me/557130430188" target="_blank" rel="noopener noreferrer" aria-label="Conversar com a CSK pelo WhatsApp"><b>↗</b><span>Falar com a CSK</span></a>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('companyForm').addEventListener('submit', function(event) {
