@@ -1,121 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#26394d">
-  <meta name="description" content="CSK — Núcleo Externo de Estratégia e Inovação. Enxergue o que a rotina esconde.">
-  <title>CSK | Núcleo Externo de Estratégia e Inovação</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <style>
-    :root{color-scheme:dark;--navy:#26394d;--navy-deep:#1d2d40;--ivory:#f4efeb;--mist:#c0cfdb;--muted:#a8b7c5;--cyan:#56d8df}
-    *{box-sizing:border-box}
-    html{min-height:100%;background:var(--navy)}
-    body{margin:0;min-height:100vh;overflow:hidden;background:linear-gradient(145deg,#26394d 0%,#2c4055 58%,#203247 100%);color:var(--ivory);font-family:"DM Sans",sans-serif}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background:repeating-linear-gradient(to bottom,transparent 0,transparent 16px,rgba(211,225,237,.42) 17px,transparent 18px);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 95%,transparent 100%)}
-    body:after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 47% 43%,rgba(112,148,177,.14),transparent 48%)}
-    .page{position:relative;isolation:isolate;min-height:100svh;width:100%;padding:26px clamp(22px,4.2vw,64px) 36px;display:flex;flex-direction:column}
-    header{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:5}
-    .brand{font-family:"Playfair Display",serif;font-size:clamp(2rem,3vw,2.8rem);line-height:1;letter-spacing:-.12em;color:var(--ivory);text-decoration:none;padding-right:.15em}
-    .brand:after{content:"";display:block;width:42px;height:1px;background:rgba(244,239,235,.65);margin-top:10px}
-    .descriptor{max-width:180px;text-align:right;text-transform:uppercase;letter-spacing:.17em;font-size:.59rem;line-height:1.55;font-weight:700;color:#c2d0dc}
-    main{width:min(100%,1000px);margin:auto;position:relative;display:grid;grid-template-columns:minmax(260px, .92fr) minmax(330px,1.08fr);align-items:center;gap:clamp(22px,5vw,80px);padding:24px 0 12px}
-    .visual{height:clamp(310px,43vw,490px);position:relative;display:grid;place-items:center;min-width:0}
-    .lens{position:relative;width:clamp(260px,31vw,390px);aspect-ratio:1;border:1.5px solid rgba(244,239,235,.88);border-radius:50%;overflow:hidden;background:radial-gradient(circle at 45% 35%,rgba(151,180,202,.16),rgba(19,36,54,.12) 72%);box-shadow:inset 0 0 35px rgba(255,255,255,.035),0 20px 70px rgba(10,20,31,.1);cursor:grab;touch-action:none;user-select:none;animation:float 6s ease-in-out infinite}
-    .lens:active{cursor:grabbing}
-    .lens:before{content:"";position:absolute;inset:8px;border:1px solid rgba(213,226,237,.1);border-radius:50%;pointer-events:none}
-    .words{position:absolute;inset:-12% -20%;display:flex;flex-direction:column;justify-content:center;gap:16px;transform:rotate(-5deg);pointer-events:none}
-    .word-row{display:flex;justify-content:center;gap:22px;white-space:nowrap;font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,1.55vw,1.35rem);color:rgba(221,231,239,.63);animation:drift 18s ease-in-out infinite alternate}
-    .word-row:nth-child(even){transform:translateX(-18px);animation-duration:22s}
-    .word-row span:nth-child(2){color:#e5e9ec;font-weight:600;font-style:normal}
-    .handle{position:absolute;width:clamp(75px,10vw,120px);height:13px;left:calc(50% + clamp(80px,10vw,120px));top:calc(50% + clamp(80px,10vw,120px));border-radius:12px;background:linear-gradient(90deg,rgba(202,216,227,.8),rgba(125,149,170,.22));transform:rotate(48deg);transform-origin:left center;box-shadow:0 5px 18px rgba(10,20,31,.18);pointer-events:none}
-    .handle:after{content:"";position:absolute;inset:2px 3px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,.2),transparent)}
-    .copy{position:relative;z-index:2;padding-top:clamp(0px,3vw,32px)}
-    h1{font-family:"Playfair Display",serif;font-size:clamp(2.55rem,4.25vw,4.4rem);line-height:1.04;letter-spacing:-.055em;font-weight:500;margin:0 0 23px;max-width:580px}
-    h1 em{font-weight:500;color:var(--mist)}
-    .instruction{display:flex;align-items:center;gap:11px;text-transform:uppercase;font-size:.61rem;letter-spacing:.15em;font-weight:700;color:#c0ceda;margin-bottom:28px}
-    .instruction:before{content:"";height:1px;width:22px;background:#c0ceda}
-    .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%,430px);min-height:54px;padding:7px 8px 7px 24px;border-radius:999px;background:var(--ivory);color:#24384e;text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.13em;text-align:center;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
-    .cta:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(8,17,27,.22);background:#fffaf6}
-    .cta:focus-visible{outline:3px solid var(--cyan);outline-offset:5px}
-    .arrow{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:50%;background:#2c4055;color:white;font-size:1.25rem;transition:transform .25s ease}
-    .cta:hover .arrow{transform:translateX(2px)}
-    .hint{font-size:.67rem;color:rgba(211,224,235,.57);margin-top:16px;line-height:1.6}
-    footer{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px;color:rgba(211,224,235,.52);font-size:.57rem;letter-spacing:.12em;text-transform:uppercase}
-    .footer-mark{display:flex;align-items:center;gap:9px}.spark{color:var(--cyan);font-size:1rem}
-    @keyframes float{0%,100%{transform:translate3d(0,0,0) rotate(-1deg)}50%{transform:translate3d(0,-13px,0) rotate(1deg)}}
-    @keyframes drift{from{translate:-10px 0}to{translate:10px 0}}
-    @media(min-width:1200px){main{transform:translateX(-1.5%)}}
-    @media(max-width:760px){body{overflow:auto}.page{min-height:100svh;padding:22px 22px 24px}main{grid-template-columns:1fr;gap:0;width:100%;padding:8px 0 30px}.visual{height:clamp(270px,75vw,390px);order:0}.lens{width:clamp(250px,68vw,340px)}.handle{left:calc(50% + 80px);top:calc(50% + 80px);width:85px}.copy{padding:0 0 20px;max-width:540px;margin:-3px auto 0;width:100%}h1{font-size:clamp(2.55rem,10vw,3.7rem)}.cta{width:100%;font-size:.58rem;letter-spacing:.1em}.hint{margin-top:12px}footer{font-size:.5rem}.descriptor{font-size:.52rem;max-width:145px}}
-    @media(max-width:380px){.lens{width:245px}.visual{height:260px}.word-row{font-size:.92rem;gap:15px}.cta{padding-left:14px}.descriptor{max-width:125px;font-size:.47rem}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-  </style>
-  <script src="i18n.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#304358">
+<meta name="description" content="CSK — Núcleo Externo de Estratégia e Inovação. Toda empresa tem algo que a rotina esconde.">
+<title>CSK · Núcleo Externo de Estratégia e Inovação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#304358;--paper:#f4efeb;--soft:#b9c9d7;--line:rgba(207,220,232,.16);--ink:#304358}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:var(--bg)}
+body{min-height:100vh;min-height:100svh;overflow:hidden;color:var(--paper);font-family:"DM Sans",sans-serif}
+.stage{position:relative;isolation:isolate;min-height:100vh;min-height:100svh;overflow:hidden;background:linear-gradient(180deg,#304358 0%,#304358 63%,#2e4257 100%)}
+.stage:before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(to bottom,transparent 0,transparent 15px,var(--line) 16px,transparent 17px);pointer-events:none}
+header{position:absolute;left:clamp(18px,1.3vw,25px);right:clamp(18px,1.3vw,25px);top:16px;display:flex;justify-content:space-between;align-items:flex-start;z-index:4}
+.logo{display:block;width:61px;height:43px;color:#f3efed}
+.logo svg{width:100%;height:100%;display:block}
+.descriptor{margin-top:2px;text-align:center;color:#d4dfe8;font-size:8px;line-height:1.28;letter-spacing:1.25px;font-weight:700;text-transform:uppercase;min-width:105px}
+main{position:relative;width:420px;margin-left:calc(50% - 190px);padding-top:clamp(155px,23.2vh,178px);padding-bottom:42px}
+.visual{height:318px;position:relative;width:330px;margin-left:-120px}
+.lens{position:absolute;top:0;left:0;width:330px;height:330px;border:1.5px solid rgba(246,242,239,.94);border-radius:50%;overflow:hidden;background:rgba(205,221,234,.025);box-shadow:inset 0 0 20px rgba(226,236,244,.035);touch-action:none;cursor:grab;user-select:none;animation:float 7s ease-in-out infinite}
+.lens:before{content:"";position:absolute;inset:5px;border:1px solid rgba(229,237,243,.07);border-radius:50%;pointer-events:none}
+.lens:active{cursor:grabbing}
+.words{position:absolute;inset:-4px -42px;display:flex;flex-direction:column;justify-content:center;gap:17px;transform:rotate(-1deg);pointer-events:none}
+.word-row{display:flex;justify-content:center;align-items:center;gap:24px;white-space:nowrap;font-family:"Playfair Display",serif;font-size:17px;line-height:1.1;color:rgba(221,231,239,.62);animation:drift 16s ease-in-out infinite alternate}
+.word-row:nth-child(even){transform:translateX(-26px);font-style:italic;animation-duration:21s}
+.word-row span:nth-child(2){color:rgba(240,242,242,.78);font-weight:600}
+.handle{position:absolute;z-index:0;left:267px;top:270px;width:130px;height:11px;border-radius:9px;background:linear-gradient(90deg,rgba(207,220,231,.6),rgba(180,198,213,.12));transform:rotate(48deg);transform-origin:left center;box-shadow:0 2px 9px rgba(13,27,42,.12);pointer-events:none}
+.handle:after{content:"";position:absolute;left:5px;right:3px;top:2px;height:1px;background:rgba(255,255,255,.25)}
+.copy{position:relative;z-index:2;margin-top:-3px;width:420px}
+h1{margin:0 0 20px;font-family:"Playfair Display",serif;font-weight:500;font-size:clamp(34px,3.05vw,41px);line-height:1.08;letter-spacing:-1.3px;color:var(--paper)}
+h1 em{display:block;color:#c4d2de;font-weight:500}
+.instruction{display:flex;align-items:center;gap:8px;margin:0 0 27px 0;color:#bdcbd7;font-size:9px;line-height:1.2;font-weight:700;letter-spacing:1.25px;text-transform:uppercase}
+.instruction:before{content:"";width:20px;height:1px;background:#c7d3dd}
+.cta{display:flex;align-items:center;justify-content:space-between;width:420px;height:46px;padding:5px 6px 5px 18px;border-radius:30px;background:var(--paper);color:#24394f;text-decoration:none;font-size:9px;letter-spacing:1.25px;font-weight:700;transition:background .2s,transform .2s}
+.cta:hover{background:#fffaf7;transform:translateY(-1px)}
+.cta:focus-visible{outline:2px solid #b9dfe7;outline-offset:4px}
+.arrow{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#304358;color:#fff;font-size:17px;font-weight:400;line-height:1}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes drift{from{translate:-5px 0}to{translate:5px 0}}
+@media(min-height:800px){main{padding-top:clamp(170px,23vh,220px)}}
+@media(max-width:700px){
+ body{overflow:auto}.stage{min-height:100svh;overflow:hidden}
+ header{top:20px;left:20px;right:20px}.logo{width:55px;height:39px}.descriptor{font-size:7px;letter-spacing:1px}
+ main{width:min(420px,calc(100% - 42px));margin:0 auto;padding-top:clamp(135px,20vh,175px);padding-bottom:36px}
+ .visual{width:100%;height:clamp(250px,72vw,318px);margin-left:0}
+ .lens{width:clamp(250px,72vw,320px);height:clamp(250px,72vw,320px);left:50%;transform:translateX(-50%);animation:float-mobile 7s ease-in-out infinite}
+ .words{inset:-4px -35px;gap:15px}.word-row{font-size:15px;gap:18px}
+ .handle{left:calc(50% + 88px);top:clamp(205px,60vw,260px);width:100px}
+ .copy{width:100%;margin-top:-3px}h1{font-size:clamp(32px,8.6vw,40px);letter-spacing:-1px}
+ .cta{width:100%;height:46px;font-size:8px;letter-spacing:.9px;padding-left:12px}
+}
+@keyframes float-mobile{0%,100%{translate:-50% 0}50%{translate:-50% -5px}}
+@media(max-width:360px){.word-row{font-size:13px;gap:13px}.cta{font-size:7px;letter-spacing:.7px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <a class="brand" href="/" aria-label="CSK — Núcleo Externo de Estratégia e Inovação">CSK</a>
-      <div class="descriptor">Núcleo Externo<br>de Estratégia e<br>Inovação</div>
-    </header>
-    <main>
-      <div class="visual" aria-label="Lupa animada com palavras relacionadas à estratégia empresarial">
-        <div class="lens" id="lens" role="img" aria-label="Lupa com palavras: evolução, gargalos, riscos, prioridades, projetos e oportunidades">
-          <div class="words" aria-hidden="true">
-            <div class="word-row"><span>evolução</span><span>gargalos</span><span>riscos</span></div>
-            <div class="word-row"><span>prioridades</span><span>projetos</span><span>evolução</span></div>
-            <div class="word-row"><span>riscos</span><span>gargalos</span><span>oportunidades</span></div>
-            <div class="word-row"><span>evolução</span><span>prioridades</span><span>projetos</span></div>
-            <div class="word-row"><span>gargalos</span><span>oportunidades</span><span>riscos</span></div>
-            <div class="word-row"><span>prioridades</span><span>projetos</span><span>evolução</span></div>
-            <div class="word-row"><span>oportunidades</span><span>riscos</span><span>projetos</span></div>
-          </div>
-        </div>
-        <div class="handle" aria-hidden="true"></div>
-      </div>
-      <section class="copy">
-        <h1>Toda empresa tem algo que <em>a rotina esconde.</em></h1>
-        <div class="instruction">Arraste a lupa</div>
-        <a class="cta" href="/institucional.html">
-          <span>ENXERGAR O QUE ESTÁ ESCONDIDO</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <p class="hint">Estratégia e inovação para enxergar novas possibilidades.</p>
-      </section>
-    </main>
-    <footer>
-      <span class="footer-mark"><span class="spark">✣</span> CSK · Estratégia &amp; Inovação</span>
-      <span>Conhecimento · Inovação · Eficiência</span>
-    </footer>
-  </div>
-  <script>
-    (() => {
-      const lens = document.getElementById('lens');
-      if (!lens || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      let dragging = false, startX = 0, startY = 0, baseX = 0, baseY = 0, moveX = 0, moveY = 0;
-      lens.addEventListener('pointerdown', event => {
-        dragging = true; startX = event.clientX; startY = event.clientY;
-        baseX = moveX; baseY = moveY; lens.setPointerCapture(event.pointerId);
-        lens.style.animation = 'none';
-      });
-      lens.addEventListener('pointermove', event => {
-        if (!dragging) return;
-        moveX = Math.max(-45, Math.min(45, baseX + event.clientX - startX));
-        moveY = Math.max(-35, Math.min(35, baseY + event.clientY - startY));
-        lens.style.transform = 'translate3d(' + moveX + 'px,' + moveY + 'px,0)';
-      });
-      const release = () => {
-        if (!dragging) return;
-        dragging = false; lens.style.animation = '';
-        lens.style.transform = '';
-        moveX = 0; moveY = 0;
-      };
-      lens.addEventListener('pointerup', release);
-      lens.addEventListener('pointercancel', release);
-      lens.addEventListener('lostpointercapture', () => { dragging = false; lens.style.animation = ''; });
-    })();
-  </script>
+<div class="stage">
+<header>
+<a class="logo" href="/" aria-label="CSK"><svg viewBox="0 0 100 66" role="img" aria-label="CSK"><g fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 18H43M9 18C10 5 30 2 40 8M12 19C1 34 13 52 28 49C34 48 39 44 42 38"/><path d="M43 13C28 10 26 27 40 31C53 35 48 48 35 46"/><path d="M44 18V52M44 34L62 17M46 33L64 51"/><path d="M66 17V51M66 34L85 17M67 34L86 51"/></g><text x="8" y="55" fill="currentColor" font-family="Georgia,serif" font-size="10" opacity=".7"> </text></svg></a>
+<div class="descriptor">NÚCLEO EXTERNO<br>DE ESTRATÉGIA E<br>INOVAÇÃO</div>
+</header>
+<main>
+<div class="visual" aria-label="Lupa com palavras ligadas à estratégia empresarial">
+<div class="lens" id="lens" role="img" aria-label="Evolução, gargalos, riscos, prioridades, projetos e oportunidades">
+<div class="words" aria-hidden="true">
+<div class="word-row"><span>evolução</span><span>gargalos</span></div>
+<div class="word-row"><span>oportunidades</span><span>riscos</span><span>prioridades</span></div>
+<div class="word-row"><span>evolução</span><span>gargalos</span><span>oportunidades</span></div>
+<div class="word-row"><span>riscos</span><span>prioridades</span><span>projetos</span><span>evolução</span></div>
+<div class="word-row"><span>gargalos</span><span>oportunidades</span><span>riscos</span></div>
+<div class="word-row"><span>prioridades</span><span>projetos</span><span>evolução</span></div>
+<div class="word-row"><span>oportunidades</span><span>riscos</span><span>projetos</span></div>
+</div></div><div class="handle" aria-hidden="true"></div>
+</div>
+<section class="copy">
+<h1>Toda empresa tem algo<br>que <em>a rotina esconde.</em></h1>
+<div class="instruction">ARRASTE A LUPA</div>
+<a class="cta" href="/institucional.html"><span>ENXERGAR O QUE ESTÁ ESCONDIDO</span><span class="arrow" aria-hidden="true">→</span></a>
+</section>
+</main>
+</div>
+<script>
+(()=>{const lens=document.getElementById('lens');if(!lens||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let active=false,sx=0,sy=0,dx=0,dy=0; lens.addEventListener('pointerdown',e=>{active=true;sx=e.clientX;sy=e.clientY;lens.setPointerCapture(e.pointerId);lens.style.animation='none'});lens.addEventListener('pointermove',e=>{if(!active)return;dx=Math.max(-28,Math.min(28,e.clientX-sx));dy=Math.max(-24,Math.min(24,e.clientY-sy));lens.style.translate=dx+'px '+dy+'px'});const end=()=>{if(!active)return;active=false;lens.style.animation='';lens.style.translate=''};lens.addEventListener('pointerup',end);lens.addEventListener('pointercancel',end);lens.addEventListener('lostpointercapture',()=>{active=false;lens.style.animation=''})})();
+</script>
 </body>
 </html>
