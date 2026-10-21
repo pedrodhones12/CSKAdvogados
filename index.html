@@ -87,39 +87,45 @@ h1 em{display:block;color:#c4d2de;font-weight:500}
 </main>
 </div>
 <script>
-(()=> {
- const lens=document.getElementById('lens'), handle=document.getElementById('handle'), field=document.getElementById('revealField');
- if(!lens||!handle||!field)return;
- const size=330;
- let x=Math.max(0,window.innerWidth*.393-size/2), y=72;
- let targetX=x,targetY=y,raf=0;
- function place(){
-   x+=(targetX-x)*0.16;
-   y+=(targetY-y)*0.16;
-   if(Math.abs(targetX-x)<0.15)x=targetX;
-   if(Math.abs(targetY-y)<0.15)y=targetY;
-   lens.style.left=x+'px';
-   lens.style.top=y+'px';
-   handle.style.left=(x+267)+'px';
-   handle.style.top=(y+270)+'px';
-   field.style.setProperty('--reveal-x',(x+size/2)+'px');
-   field.style.setProperty('--reveal-y',(y+size/2)+'px');
-   if(Math.abs(targetX-x)>.15||Math.abs(targetY-y)>.15)raf=requestAnimationFrame(place);
-   else raf=0;
- }
- function move(e){
-   const w=window.innerWidth,h=window.innerHeight;
-   targetX=Math.max(0,Math.min(w-size,e.clientX-size/2));
-   targetY=Math.max(0,Math.min(h-size,e.clientY-size/2));
-   if(!raf)raf=requestAnimationFrame(place);
- }
- window.addEventListener('pointermove',move,{passive:true});
- window.addEventListener('resize',()=>{
-   targetX=Math.max(0,Math.min(window.innerWidth-size,targetX));
-   targetY=Math.max(0,Math.min(window.innerHeight-size,targetY));
-   if(!raf)raf=requestAnimationFrame(place);
- });
- place();
+(function(){
+  const lens=document.getElementById('lens');
+  const handle=document.getElementById('handle');
+  const field=document.getElementById('revealField');
+  if(!lens||!handle||!field)return;
+  let raf=0, currentX=0,currentY=72,targetX=0,targetY=72;
+  const radius=165;
+  function update(){
+    const dx=targetX-currentX,dy=targetY-currentY;
+    currentX+=dx*0.22; currentY+=dy*0.22;
+    if(Math.abs(dx)<0.4)currentX=targetX;
+    if(Math.abs(dy)<0.4)currentY=targetY;
+    lens.style.left=currentX+'px';
+    lens.style.top=currentY+'px';
+    handle.style.left=(currentX+267)+'px';
+    handle.style.top=(currentY+270)+'px';
+    field.style.setProperty('--reveal-x',(currentX+radius)+'px');
+    field.style.setProperty('--reveal-y',(currentY+radius)+'px');
+    if(Math.abs(targetX-currentX)>.4||Math.abs(targetY-currentY)>.4)raf=requestAnimationFrame(update);
+    else raf=0;
+  }
+  function onMove(event){
+    targetX=Math.max(0,Math.min(window.innerWidth-330,event.clientX-165));
+    targetY=Math.max(0,Math.min(window.innerHeight-330,event.clientY-165));
+    if(!raf)raf=requestAnimationFrame(update);
+  }
+  function resetPosition(){
+    targetX=Math.max(0,Math.min(window.innerWidth-330,window.innerWidth*.393-165));
+    targetY=72;
+    if(!raf)raf=requestAnimationFrame(update);
+  }
+  currentX=targetX=Math.max(0,Math.min(window.innerWidth-330,window.innerWidth*.393-165));
+  lens.style.left=currentX+'px';lens.style.top=currentY+'px';
+  handle.style.left=(currentX+267)+'px';handle.style.top=(currentY+270)+'px';
+  field.style.setProperty('--reveal-x',(currentX+165)+'px');
+  field.style.setProperty('--reveal-y',(currentY+165)+'px');
+  document.addEventListener('mousemove',onMove,{passive:true});
+  document.addEventListener('pointermove',onMove,{passive:true});
+  window.addEventListener('resize',resetPosition);
 })();
 </script>
 </body>
