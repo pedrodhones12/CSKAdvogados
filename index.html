@@ -22,7 +22,7 @@ header{position:absolute;left:clamp(18px,1.3vw,25px);right:clamp(18px,1.3vw,25px
 .descriptor{margin-top:2px;text-align:center;color:#d4dfe8;font-size:8px;line-height:1.28;letter-spacing:1.25px;font-weight:700;text-transform:uppercase;min-width:105px}
 main{position:relative;width:420px;margin-left:calc(50% - 190px);padding-top:72px;padding-bottom:42px}
 .visual{height:318px;position:relative;width:330px;margin-left:-120px;pointer-events:none}
-.lens{position:fixed;top:72px;left:calc(50% - 313px);z-index:1;width:330px;height:330px;border:1.5px solid rgba(246,242,239,.94);border-radius:50%;overflow:hidden;background:rgba(205,221,234,.025);box-shadow:inset 0 0 20px rgba(226,236,244,.035);pointer-events:auto;cursor:grab;user-select:none;will-change:left,top}
+.lens{position:fixed;top:72px;left:calc(50% - 313px);z-index:1;width:330px;height:330px;border:1.5px solid rgba(246,242,239,.94);border-radius:50%;overflow:hidden;background:rgba(205,221,234,.025);box-shadow:inset 0 0 20px rgba(226,236,244,.035);pointer-events:none;user-select:none;will-change:left,top}
 .lens:before{content:"";position:absolute;inset:5px;border:1px solid rgba(229,237,243,.07);border-radius:50%;pointer-events:none}
 .lens:active{cursor:grabbing}
 .reveal-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;--reveal-x:39.3vw;--reveal-y:237px;mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%);-webkit-mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%)}\n.words{position:absolute;inset:-4px -42px;display:flex;flex-direction:column;justify-content:center;gap:17px;transform:rotate(-1deg);pointer-events:none}\n.reveal-field .words{inset:-20px -5%;gap:24px;justify-content:flex-start;top:10%;height:100%;transform:rotate(-2deg)}
@@ -90,32 +90,36 @@ h1 em{display:block;color:#c4d2de;font-weight:500}
 (()=> {
  const lens=document.getElementById('lens'), handle=document.getElementById('handle'), field=document.getElementById('revealField');
  if(!lens||!handle||!field)return;
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- let start=performance.now(), raf=0, paused=false, drag=false, px=0, py=0;
  const size=330;
- function frame(now){
-   if(!paused&&!drag&&!reduced){
-     const w=window.innerWidth,h=window.innerHeight;
-     const t=(now-start)/1000;
-     const x=Math.max(0,Math.min(w-size,(w-size)*(0.5+0.43*Math.sin(t*0.28-0.337))));
-     const y=Math.max(0,Math.min(h-size,(h-size)*(0.5+0.42*Math.sin(t*0.38-0.64))));
-     place(x,y);
-   }
-   raf=requestAnimationFrame(frame);
- }
- function place(x,y){
-   lens.style.left=x+'px';lens.style.top=y+'px';
-   handle.style.left=(x+267)+'px';handle.style.top=(y+270)+'px';
+ let x=Math.max(0,window.innerWidth*.393-size/2), y=72;
+ let targetX=x,targetY=y,raf=0;
+ function place(){
+   x+=(targetX-x)*0.16;
+   y+=(targetY-y)*0.16;
+   if(Math.abs(targetX-x)<0.15)x=targetX;
+   if(Math.abs(targetY-y)<0.15)y=targetY;
+   lens.style.left=x+'px';
+   lens.style.top=y+'px';
+   handle.style.left=(x+267)+'px';
+   handle.style.top=(y+270)+'px';
    field.style.setProperty('--reveal-x',(x+size/2)+'px');
    field.style.setProperty('--reveal-y',(y+size/2)+'px');
+   if(Math.abs(targetX-x)>.15||Math.abs(targetY-y)>.15)raf=requestAnimationFrame(place);
+   else raf=0;
  }
- if(reduced){place(Math.max(0,window.innerWidth*.393-size/2),72);}
- else {place(Math.max(0,window.innerWidth*.393-size/2),72);raf=requestAnimationFrame(frame);}
- window.addEventListener('resize',()=>{if(reduced)place(Math.max(0,window.innerWidth*.393-size/2),72);});
- lens.addEventListener('pointerdown',e=>{drag=true;paused=true;px=e.clientX;py=e.clientY;lens.setPointerCapture(e.pointerId);});
- lens.addEventListener('pointermove',e=>{if(!drag)return;const rect=lens.getBoundingClientRect();place(Math.max(0,Math.min(window.innerWidth-size,rect.left+e.movementX)),Math.max(0,Math.min(window.innerHeight-size,rect.top+e.movementY)));});
- const end=()=>{if(!drag)return;drag=false;paused=false;start=performance.now()-1500;};
- lens.addEventListener('pointerup',end);lens.addEventListener('pointercancel',end);
+ function move(e){
+   const w=window.innerWidth,h=window.innerHeight;
+   targetX=Math.max(0,Math.min(w-size,e.clientX-size/2));
+   targetY=Math.max(0,Math.min(h-size,e.clientY-size/2));
+   if(!raf)raf=requestAnimationFrame(place);
+ }
+ window.addEventListener('pointermove',move,{passive:true});
+ window.addEventListener('resize',()=>{
+   targetX=Math.max(0,Math.min(window.innerWidth-size,targetX));
+   targetY=Math.max(0,Math.min(window.innerHeight-size,targetY));
+   if(!raf)raf=requestAnimationFrame(place);
+ });
+ place();
 })();
 </script>
 </body>
