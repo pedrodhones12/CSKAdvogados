@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# URL profissional sem extensao: /atuacao
+RewriteRule ^atuacao/?$ atuacao.html [L]
+
+# Redireciona o endereço antigo para o endereço limpo e remove parâmetros de rastreamento
+RewriteCond %{THE_REQUEST} \s/+atuacao\.html(?:[?\s]) [NC]
+RewriteRule ^atuacao\.html$ /atuacao [R=301,L,NE,QSD]
