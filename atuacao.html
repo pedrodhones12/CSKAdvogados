@@ -1,175 +1,192 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Conheça a CSK Sem Fronteiras e conte à nossa equipe sobre os desafios e oportunidades da sua empresa.">
-  <title>CSK Sem Fronteiras | Estratégia e Inovação</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-  <style>
-    :root{--ink:#17243a;--muted:#657287;--paper:#f2f0ec;--blue:#cbdce8;--line:rgba(23,36,58,.15);--gold:#b6a481}
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth;color-scheme:light}
-    body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden}
-    a{color:inherit}
-    .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 85% 18%,rgba(151,183,209,.35),transparent 27%),radial-gradient(circle at 12% 80%,rgba(182,164,129,.14),transparent 24%);opacity:.9}
-    .grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(23,36,58,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(23,36,58,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}
-    header,main,footer{position:relative;z-index:1}
-    header{height:88px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(242,240,236,.76);backdrop-filter:blur(16px)}
-    .brand{text-decoration:none;display:flex;align-items:center;gap:12px}
-    .brand-mark{font-family:"Playfair Display",serif;font-size:2.3rem;letter-spacing:-.12em}
-    .brand-name{font-size:.62rem;letter-spacing:.22em;font-weight:700}
-    .back{font-size:.75rem;text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:.75rem 1rem;transition:.25s}
-    .back:hover{background:var(--ink);color:white}
-    .hero{padding:clamp(4rem,9vw,8rem) 6vw 4rem;display:grid;grid-template-columns:1fr .65fr;gap:4rem;align-items:end}
-    .eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.2em;color:var(--muted);display:flex;align-items:center;gap:10px}
-    .eyebrow:before{content:"";height:1px;width:27px;background:var(--gold)}
-    h1,h2,h3{font-family:"Playfair Display",serif;font-weight:500}
-    h1{font-size:clamp(3.4rem,8vw,7.6rem);letter-spacing:-.065em;line-height:.92;margin:1.4rem 0}
-    h1 em{color:#7d8999;font-weight:400}
-    .hero-copy>p{max-width:650px;color:var(--muted);line-height:1.85;font-size:.96rem}
-    .hero-note{padding:1.5rem;border:1px solid rgba(23,36,58,.18);background:rgba(255,255,255,.42);border-radius:20px;box-shadow:0 24px 70px rgba(23,36,58,.07);transform:rotate(1.2deg)}
-    .note-icon{font-size:1.5rem;color:#58758d}
-    .hero-note p{font-family:"Playfair Display",serif;font-size:1.45rem;line-height:1.35;margin-top:1rem}
-    .hero-note small{display:block;margin-top:1rem;color:var(--muted);font-size:.66rem;letter-spacing:.1em}
-    .insight-orbit{position:absolute;top:4.5rem;right:7%;width:min(34vw,390px);height:330px;pointer-events:none;z-index:2}
-    .lens-halo{position:absolute;width:174px;height:174px;left:50%;top:48%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(83,116,145,.24);background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.9),rgba(196,218,232,.28) 45%,rgba(255,255,255,.1) 72%);box-shadow:0 18px 55px rgba(62,91,119,.1),inset 0 0 28px rgba(255,255,255,.7);backdrop-filter:blur(5px);animation:lensFloat 6s ease-in-out infinite}
-    .lens-halo:before,.lens-halo:after{content:"";position:absolute;border:1px solid rgba(83,116,145,.14);border-radius:50%;inset:13px}
-    .lens-halo:after{inset:27px;border-style:dashed;animation:orbitSpin 28s linear infinite}
-    .lens-glass{position:absolute;left:50%;top:46%;width:66px;height:66px;border:3px solid #3f6382;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(174,207,227,.24));box-shadow:inset 0 0 15px rgba(89,130,160,.15),0 0 0 8px rgba(255,255,255,.25)}
-    .lens-glass:after{content:"";position:absolute;width:32px;height:5px;right:-23px;bottom:-12px;border-radius:99px;background:#3f6382;transform:rotate(48deg);transform-origin:left center;box-shadow:0 3px 8px rgba(23,36,58,.12)}
-    .lens-glint{position:absolute;top:13px;left:25px;width:34px;height:34px;border-radius:50%;border-top:1px solid rgba(255,255,255,.95);transform:rotate(-28deg)}
-    .orbit-word{position:absolute;display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid rgba(255,255,255,.86);border-radius:99px;background:rgba(255,255,255,.65);box-shadow:0 12px 28px rgba(43,66,91,.09);backdrop-filter:blur(14px);color:#344f6b;font-size:.68rem;font-weight:600;letter-spacing:.025em;white-space:nowrap;animation:wordDrift 5s ease-in-out infinite}
-    .orbit-word:before{content:"";width:6px;height:6px;border-radius:50%;background:#91b4cc;box-shadow:0 0 10px rgba(96,147,181,.7)}
-    .orbit-word.w1{top:15px;left:3%;animation-delay:-.8s}.orbit-word.w2{top:84px;right:0;animation-delay:-2.1s}.orbit-word.w3{bottom:66px;left:0;animation-delay:-3s}.orbit-word.w4{bottom:13px;right:4%;animation-delay:-1.4s}
-    .orbit-caption{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);font-size:.54rem;letter-spacing:.19em;font-weight:700;color:#8192a4;white-space:nowrap}
-    @keyframes lensFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-9px)}}
-    @keyframes orbitSpin{to{transform:rotate(360deg)}}
-    @keyframes wordDrift{0%,100%{translate:0 0;opacity:.88}50%{translate:0 -9px;opacity:1}}
-    .content{padding:1rem 6vw 7rem;display:grid;grid-template-columns:.75fr 1fr;gap:4rem;align-items:start}
-    .intro{position:sticky;top:2rem;padding-top:1rem}
-    .intro h2{font-size:clamp(2.4rem,4vw,4.2rem);line-height:1.02;letter-spacing:-.045em;margin:1.2rem 0}
-    .intro h2 em{color:#7d8999}
-    .intro p{color:var(--muted);line-height:1.85;max-width:430px;font-size:.9rem}
-    .signal-list{display:grid;gap:.8rem;margin-top:2rem}
-    .signal{display:flex;align-items:center;gap:.8rem;font-size:.78rem;color:#4d5b70}
-    .signal span{display:grid;place-items:center;width:25px;height:25px;border:1px solid var(--line);border-radius:50%;font-size:.65rem}
-    .form-card{background:rgba(255,255,255,.84);border:1px solid rgba(255,255,255,.9);border-radius:26px;padding:clamp(1.3rem,4vw,2.7rem);box-shadow:0 30px 90px rgba(23,36,58,.12);backdrop-filter:blur(20px)}
-    .form-kicker{font-size:.62rem;font-weight:700;letter-spacing:.17em;color:#4e6077;margin-bottom:1.5rem}
-    .field{display:grid;gap:.55rem;margin-bottom:1.25rem}
-    label,.question-title{font-size:.74rem;font-weight:600;line-height:1.55}
-    input[type=text],input[type=email],textarea{width:100%;border:1px solid transparent;border-radius:12px;background:#f2efeb;padding:1rem;font:inherit;font-size:.82rem;color:var(--ink);outline:none;transition:border .2s,box-shadow .2s}
-    input:focus,textarea:focus{border-color:#7d9ab3;box-shadow:0 0 0 3px rgba(125,154,179,.14)}
-    textarea{min-height:100px;resize:vertical}
-    .choices{display:grid;gap:.55rem;margin-top:.8rem}
-    .choice{display:flex;gap:.7rem;align-items:flex-start;padding:.9rem .95rem;background:#f3f0ed;border:1px solid transparent;border-radius:13px;cursor:pointer;transition:background .2s,border .2s,transform .2s;font-size:.76rem;line-height:1.55}
-    .choice:hover{transform:translateY(-1px);border-color:rgba(23,36,58,.18)}
-    .choice:has(input:checked){background:#e4edf3;border-color:#8ca9c0}
-    .choice input{accent-color:#243b57;margin-top:.2rem;flex-shrink:0}
-    .divider{height:1px;background:var(--line);margin:1.6rem 0}
-    .submit{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;border:0;border-radius:99px;padding:.9rem .95rem .9rem 1.4rem;background:var(--ink);color:white;font:inherit;font-size:.69rem;font-weight:700;letter-spacing:.09em;cursor:pointer;transition:transform .25s,box-shadow .25s}
-    .submit:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(23,36,58,.2)}
-    .submit-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--ink);font-size:1.1rem}
-    .privacy{text-align:center;color:var(--muted);font-size:.64rem;line-height:1.7;margin:1rem auto 0;max-width:340px}
-    footer{padding:1.5rem 6vw;background:var(--ink);color:#c5cfdb;display:flex;justify-content:space-between;gap:1rem;align-items:center;font-size:.65rem;letter-spacing:.04em}
-
-    @media(max-width:850px){.hero{grid-template-columns:1fr;gap:2rem}.hero-note{max-width:500px}.insight-orbit{position:relative;top:auto;right:auto;width:min(100%,390px);height:260px;margin:0 auto -1rem;grid-row:2}.hero-note{grid-row:3}.content{grid-template-columns:1fr;gap:2rem}.intro{position:static}.signal-list{grid-template-columns:1fr 1fr}.hero{padding-top:4rem}}
-    @media(max-width:520px){header{height:74px;padding:0 5vw}.brand-mark{font-size:1.9rem}.brand-name{font-size:.52rem}.back{font-size:.67rem;padding:.65rem .8rem}.hero,.content{padding-left:5vw;padding-right:5vw}.hero{padding-top:3.5rem}.hero-note p{font-size:1.25rem}.signal-list{grid-template-columns:1fr}.form-card{border-radius:20px}.insight-orbit{height:235px}.lens-halo{width:145px;height:145px}.orbit-word{font-size:.61rem;padding:8px 10px}.orbit-word.w2{right:0}.orbit-caption{font-size:.48rem}footer{align-items:flex-start;flex-direction:column}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CSK Sem Fronteiras — estratégia e inovação para empresas que querem evoluir.">
+<title>CSK Sem Fronteiras | Estratégia e Inovação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#2e4055;--navy2:#24364a;--cream:#f5efeb;--blue:#c6d9e7;--ink:#2d435c;--muted:#738194;--line:rgba(198,217,231,.35);--paper:#f5efeb}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:400}
+.wrap{width:min(100% - 44px,980px);margin-inline:auto}
+section{position:relative;overflow:hidden}
+.kicker{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--blue)}
+.hero{min-height:690px;background:var(--navy);color:#f5efeb;padding:28px 0 80px}
+.hero-inner{width:min(100% - 44px,532px);margin:auto}
+.brand{height:65px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-mark{font-family:"Playfair Display",serif;font-size:2.65rem;line-height:.9;letter-spacing:-.12em;color:#f3eae2}
+.brand-dot{margin:10px 0 0;width:20px;height:20px;border-radius:50%;background:#a9c4d6;box-shadow:inset 0 0 0 7px rgba(255,255,255,.1)}
+.hero h1{font-size:clamp(2.7rem,6vw,3.35rem);line-height:1.02;letter-spacing:-.035em;text-transform:uppercase;margin:25px 0 25px}
+.hero h1 em{color:var(--blue);font-weight:400}
+.hero-sub{font:italic clamp(1.35rem,3.5vw,1.65rem)/1.4 "Playfair Display",serif;color:#bcd3e5;max-width:480px}
+.orbit-stage{height:255px;position:relative;margin-top:28px;overflow:hidden}
+.orbit-lines{position:absolute;inset:18px 0 0;background:repeating-linear-gradient(to bottom,transparent 0 19px,rgba(201,219,233,.27) 19px 21px);mask-image:linear-gradient(90deg,transparent,black 10%,black 90%,transparent)}
+.orbit-ball{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:245px;height:245px;border:2px solid #e8e4df;border-radius:50%;background:radial-gradient(circle,rgba(193,214,229,.22),rgba(46,64,85,.1) 68%);box-shadow:0 0 0 7px rgba(220,230,236,.08),inset 0 0 35px rgba(201,219,233,.13);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.orbit-words{position:absolute;inset:10px;display:grid;place-content:center;gap:8px;text-align:center;color:#c5d9e7;font:italic 1.05rem "Playfair Display",serif;transform:rotate(-5deg)}
+.orbit-words span:nth-child(even){opacity:.55;font-size:.9rem}
+.problem{padding:78px 0 82px;background:var(--cream)}
+.problem-inner{width:min(100% - 44px,460px);margin:auto}
+.issue-list{display:grid;gap:9px}
+.issue{background:#fff;border-radius:17px;padding:14px 16px;display:flex;align-items:center;gap:14px;color:#405a77;font:1rem "Playfair Display",serif;box-shadow:0 8px 20px rgba(43,54,67,.035)}
+.issue-icon{font-family:"DM Sans",sans-serif;font-size:1.15rem;color:#49647e;width:18px;text-align:center;flex:none}
+.problem-quote{border-left:1px solid #6f8ba4;margin:30px 0 22px;padding:0 0 0 16px;font:1.16rem/1.35 "Playfair Display",serif;color:#29415b}
+.italic-note{font:italic 1rem "Playfair Display",serif;color:#8097ac;margin:0 0 18px}
+.nucleus{background:#fff;border-radius:22px;padding:23px 20px 24px;box-shadow:0 15px 36px rgba(43,54,67,.05)}
+.nucleus-mark{font:2.2rem/.9 "Playfair Display",serif;letter-spacing:-.12em;margin-bottom:12px}
+.nucleus p{font:1rem/1.5 "Playfair Display",serif}
+.nucleus p+p{margin-top:12px}
+.principles{margin-top:20px;background:var(--navy);color:#f6f0eb;border-radius:20px;padding:20px 18px;text-align:center;font:2rem/1.35 "Playfair Display",serif}
+.principles span{display:block;color:#c5d9e7}
+.workflow{background:var(--navy);color:#f4efea;padding:70px 0 76px}
+.workflow-inner{width:min(100% - 44px,460px);margin:auto}
+.workflow h2{font-size:2rem;margin:15px 0 28px}
+.steps{list-style:none;position:relative}
+.steps:before{content:"";position:absolute;left:18px;top:19px;bottom:30px;width:1px;background:#b6cbd9}
+.steps li{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;position:relative;margin:0 0 22px}
+.step-number{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#c5d9e7;color:#30465e;font: .75rem "Playfair Display",serif;z-index:1}
+.steps li:last-child .step-number{background:transparent;border:1px solid #c5d9e7;color:#c5d9e7}
+.steps h3{font:700 .68rem "DM Sans",sans-serif;letter-spacing:.18em;margin:7px 0 6px}
+.steps p{font-size:.75rem;line-height:1.65;color:#d5e0e8}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:26px 0 20px}
+.pill{border:1px solid #c5d9e7;border-radius:99px;padding:8px 11px;font-size:.6rem;font-weight:700;letter-spacing:.06em}
+.pill.active{background:#c5d9e7;color:var(--navy)}
+.workflow-copy{font-size:.8rem;line-height:1.8;color:#d5e0e8}
+.paper{background:#e6d7bd;padding:72px 0 76px;background-image:repeating-linear-gradient(0deg,rgba(114,91,62,.07) 0 1px,transparent 1px 5px),linear-gradient(90deg,rgba(255,255,255,.2),transparent 25%,rgba(130,101,68,.07) 50%,transparent 80%)}
+.paper-inner{width:min(100% - 44px,460px);margin:auto}
+.paper h2{font-size:clamp(2.7rem,8vw,4rem);line-height:1.05;text-transform:uppercase;border-bottom:2px solid #30465e;padding-bottom:18px;margin:12px 0 15px}
+.paper-lead{font:1.5rem/1.2 "Playfair Display",serif;margin-bottom:22px}
+.note-card{position:relative;background:#f5efeb;border:3px double #30465e;padding:25px 20px 20px;margin:16px 0;box-shadow:0 6px 0 rgba(255,255,255,.7);transform:rotate(-1deg)}
+.note-card:nth-of-type(even){transform:rotate(1deg)}
+.note-card .symbol{font-size:1.25rem;margin-bottom:12px;color:#496c88}
+.note-card p{font:1.1rem/1.3 "Playfair Display",serif}
+.founders{padding:70px 0 80px;background:var(--cream)}
+.founders-inner{width:min(100% - 44px,460px);margin:auto}
+.founders h2{font-size:2rem;line-height:1.2;margin:15px 0 17px}
+.couple{width:100%;display:block;aspect-ratio: .84;object-fit:cover;object-position:center 28%;border-radius:19px;box-shadow:0 15px 35px rgba(40,54,68,.12);margin-bottom:16px}
+.rings{display:flex;align-items:center;gap:18px;font:1rem/1.4 "Playfair Display",serif;color:#57728c;margin:16px 0}
+.ring-icon{font-size:2.2rem;letter-spacing:-.45em;width:58px}
+.founders p{font-size:.82rem;line-height:1.9;margin:14px 0;color:#344b63}
+.motto{background:var(--navy);color:#f5efeb;border-radius:20px;padding:20px;text-align:center;font:2rem/1.3 "Playfair Display",serif;margin-top:22px}
+.motto span{display:block;color:#c5d9e7}
+.conversation{padding:75px 0;background:#fff}
+.conversation-inner{width:min(100% - 44px,560px);margin:auto}
+.conversation h2{font-size:2.5rem;line-height:1.1;margin:13px 0}
+.conversation .lead{font:italic 1.1rem/1.6 "Playfair Display",serif;color:#7189a0;margin-bottom:28px}
+.form-card{border:1px solid #e7e4e0;border-radius:20px;padding:24px;box-shadow:0 18px 50px rgba(38,53,70,.06)}
+.field{display:grid;gap:8px;margin-bottom:17px}
+label{font-size:.74rem;font-weight:600}
+input,textarea{width:100%;font:inherit;font-size:.85rem;padding:13px 14px;border:1px solid #e1e0dd;border-radius:10px;background:#f8f6f3;color:#2e4055;outline:none}
+input:focus,textarea:focus{border-color:#7d9bb5;box-shadow:0 0 0 3px rgba(125,155,181,.15)}
+textarea{min-height:105px;resize:vertical}
+.submit{border:0;background:var(--navy);color:#fff;border-radius:99px;padding:15px 20px;font-size:.72rem;font-weight:700;letter-spacing:.07em;width:100%;cursor:pointer}
+.form-small{font-size:.66rem;line-height:1.6;color:#7b8793;text-align:center;margin-top:13px}
+footer{background:var(--navy2);color:#d2dce5;padding:25px 22px;text-align:center;font-size:.68rem;letter-spacing:.05em}
+@media(min-width:760px){.hero{min-height:780px;padding-top:40px}.hero-inner{width:min(100% - 60px,540px)}.hero h1{font-size:3.8rem}.orbit-stage{height:280px}.problem-inner,.workflow-inner,.paper-inner,.founders-inner{width:min(100% - 60px,520px)}.issue{font-size:1.05rem;padding:15px 18px}.couple{aspect-ratio:.95;object-position:center 26%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body>
-  <div class="ambient"></div><div class="grid"></div>
-  <header>
-    <a class="brand" href="/" aria-label="CSK Sem Fronteiras - início"><span class="brand-mark">CSK</span><span class="brand-name">SEM FRONTEIRAS</span></a>
-    <a class="back" href="/#atuacao">← Voltar ao site</a>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">CSK SEM FRONTEIRAS · ESTRATÉGIA EMPRESARIAL</div>
-        <h1>Talvez sua empresa<br>não precise de<br><em>mais uma ideia.</em></h1>
-        <p>Talvez precise descobrir qual ideia realmente merece virar projeto. Se sua empresa já possui uma operação estabelecida e você sente que existem gargalos, oportunidades ou projetos importantes ficando sem atenção, queremos entender o que está acontecendo.</p>
-      </div>
-      <div class="insight-orbit" aria-label="Conceitos de estratégia e inovação em movimento">
-        <span class="orbit-word w1">Estratégia</span>
-        <span class="orbit-word w2">Novas oportunidades</span>
-        <span class="orbit-word w3">Inovação</span>
-        <span class="orbit-word w4">Lucro sustentável</span>
-        <div class="lens-halo" aria-hidden="true"><div class="lens-glass"><span class="lens-glint"></span></div></div>
-        <span class="orbit-caption">ENXERGUE NOVAS POSSIBILIDADES</span>
-      </div>
-      <aside class="hero-note">
-        <div class="note-icon">◎ ↗</div>
-        <p>O primeiro passo é uma conversa.</p>
-        <small>NÃO PARA CHEGAR COM UMA SOLUÇÃO PRONTA.</small>
-      </aside>
-    </section>
-    <section class="content" id="conversar">
-      <div class="intro">
-        <div class="eyebrow">UMA CONVERSA COM CONTEXTO</div>
-        <h2>Entender primeiro.<br><em>Construir depois.</em></h2>
-        <p>Queremos compreender o momento da sua empresa e avaliar se existe algo que podemos construir juntos. Responda às perguntas abaixo para organizar o ponto de partida — suas respostas serão enviadas diretamente à equipe pelo WhatsApp.</p>
-        <div class="signal-list">
-          <div class="signal"><span>01</span> Escuta e diagnóstico</div>
-          <div class="signal"><span>02</span> Visão estratégica</div>
-          <div class="signal"><span>03</span> Tecnologia e inovação</div>
-          <div class="signal"><span>04</span> Próximos passos possíveis</div>
-        </div>
-      </div>
-      <form class="form-card" id="companyForm">
-        <div class="form-kicker">CONTE UM POUCO SOBRE SUA EMPRESA</div>
-        <div class="field"><label for="name">Nome</label><input id="name" name="name" type="text" placeholder="Como podemos chamar você?" required></div>
-        <div class="field"><label for="company">Nome da empresa</label><input id="company" name="company" type="text" placeholder="Nome da sua empresa" required></div>
-        <div class="field"><label for="email">E-mail para contato (opcional)</label><input id="email" name="email" type="email" placeholder="voce@empresa.com"></div>
-        <div class="divider"></div>
-        <div class="question-title">O que mais se aproxima do momento da sua empresa?</div>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="moment" value="Temos projetos importantes que não conseguem avançar." required><span>Temos projetos importantes que não conseguem avançar.</span></label>
-          <label class="choice"><input type="radio" name="moment" value="Queremos desenvolver novos produtos, serviços ou canais."><span>Queremos desenvolver novos produtos, serviços ou canais.</span></label>
-          <label class="choice"><input type="radio" name="moment" value="Precisamos melhorar processos, produtividade ou eficiência."><span>Precisamos melhorar processos, produtividade ou eficiência.</span></label>
-          <label class="choice"><input type="radio" name="moment" value="Ainda não sei exatamente. Só sinto que a empresa poderia estar evoluindo mais."><span>Ainda não sei exatamente. Só sinto que a empresa poderia estar evoluindo mais.</span></label>
-        </div>
-        <div class="field" style="margin-top:1.3rem"><label for="goal">Se pudesse escolher uma coisa para melhorar ou desenvolver na sua empresa hoje, qual seria?</label><textarea id="goal" name="goal" placeholder="Conte um pouco sobre o desafio ou a oportunidade..." required></textarea></div>
-        <button class="submit" type="submit"><span>QUERO CONVERSAR SOBRE MINHA EMPRESA</span><span class="submit-icon">→</span></button>
-        <p class="privacy">Primeira conversa para entender o cenário da sua empresa e avaliar se existe aderência com o nosso trabalho. O botão abrirá o WhatsApp com as respostas preenchidas para você revisar e enviar.</p>
-      </form>
-    </section>
-  </main>
-  <footer><span>© <span id="year"></span> CSK Sem Fronteiras</span><a href="/#topo">Voltar ao início ↑</a></footer>
-  <script>
-    // Palavras-chave que circulam na lente estratégica da página.
-    const orbitWords = ['Estratégia','Inovação','Novas oportunidades','Importação','Exportação','Lucro sustentável','Transformação digital','Crescimento'];
-    const orbitEls = Array.from(document.querySelectorAll('.orbit-word'));
-    let orbitIndex = 0;
-    window.setInterval(() => {
-      if (!orbitEls.length || document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      orbitIndex = (orbitIndex + 1) % orbitWords.length;
-      orbitEls.forEach((el, i) => {
-        el.animate([{opacity:1, transform:'translateY(0)'},{opacity:0, transform:'translateY(8px)'}], {duration:220,fill:'forwards'}).onfinish = () => {
-          el.textContent = orbitWords[(orbitIndex + i) % orbitWords.length];
-          el.animate([{opacity:0, transform:'translateY(-7px)'},{opacity:1, transform:'translateY(0)'}], {duration:360,fill:'forwards'});
-        };
-      });
-    }, 2600);
-    document.getElementById('year').textContent = new Date().getFullYear();
-    document.getElementById('companyForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const data = new FormData(this);
-      const message = [
-        'Olá! Gostaria de conversar com a CSK Sem Fronteiras sobre minha empresa.',
-        '',
-        'Nome: ' + (data.get('name') || ''),
-        'Empresa: ' + (data.get('company') || ''),
-        'E-mail: ' + (data.get('email') || 'Não informado'),
-        'Momento da empresa: ' + (data.get('moment') || ''),
-        'O que gostaria de melhorar ou desenvolver: ' + (data.get('goal') || '')
-      ].join('\n');
-      window.open('https://wa.me/557130430188?text=' + encodeURIComponent(message), '_blank', 'noopener,noreferrer');
-    });
-  </script>
-  <script src="/i18n.js"></script>
+<section class="hero" id="topo">
+  <div class="hero-inner">
+    <div class="brand"><div class="brand-mark" aria-label="CSK">CSK</div><div class="brand-dot" aria-hidden="true"></div></div>
+    <p class="kicker">CSK SEM FRONTEIRAS</p>
+    <h1>Sua empresa<br>funciona,<br>vende <em>e fatura.</em></h1>
+    <p class="hero-sub">Mas quem está olhando para aquilo que a operação não deixa você enxergar?</p>
+    <div class="orbit-stage" aria-hidden="true"><div class="orbit-lines"></div><div class="orbit-ball"><div class="orbit-words"><span>estratégia · movimento</span><span>inovação · melhorias</span><span>novas possibilidades</span><span>movimento · inovação</span></div></div></div>
+  </div>
+</section>
+<section class="problem" id="problema">
+  <div class="problem-inner">
+    <div class="issue-list">
+      <div class="issue"><span class="issue-icon">⌁</span><span>Uma queda em determinado indicador.</span></div>
+      <div class="issue"><span class="issue-icon">☼</span><span>Um processo que poderia funcionar melhor.</span></div>
+      <div class="issue"><span class="issue-icon">✣</span><span>Uma oportunidade de novo produto ou serviço.</span></div>
+      <div class="issue"><span class="issue-icon">▧</span><span>Uma tecnologia que poderia reduzir trabalho.</span></div>
+      <div class="issue"><span class="issue-icon">▢</span><span>Um projeto importante que nunca consegue sair do papel.</span></div>
+    </div>
+    <blockquote class="problem-quote">Talvez o problema não seja falta de oportunidade. Talvez seja falta de alguém responsável por parar, investigar e transformar essas questões em projetos estruturados.</blockquote>
+    <p class="italic-note">É exatamente nesse espaço que atuamos.</p>
+    <div class="nucleus"><div class="nucleus-mark">CSK</div><p>A CSK funciona como um núcleo externo de estratégia e inovação para empresas que já possuem uma operação estabelecida, mas precisam transformar oportunidades em evolução concreta.</p><p>Nosso papel é ajudar a enxergar, conectar e estruturar aquilo que pode fazer o negócio avançar.</p></div>
+    <div class="principles">Enxergar.<span>Conectar.</span>Estruturar.<span><em>Impactar.</em></span></div>
+  </div>
+</section>
+<section class="workflow" id="como-trabalhamos">
+  <div class="workflow-inner">
+    <p class="kicker">Como trabalhamos</p>
+    <h2>Da análise à evolução.</h2>
+    <ol class="steps">
+      <li><span class="step-number">01</span><div><h3>DIAGNOSTICAR</h3><p>Entender profundamente o negócio e identificar gargalos e oportunidades.</p></div></li>
+      <li><span class="step-number">02</span><div><h3>PRIORIZAR</h3><p>Definir o que realmente merece atenção agora.</p></div></li>
+      <li><span class="step-number">03</span><div><h3>ESTRUTURAR</h3><p>Transformar prioridades em projetos executáveis.</p></div></li>
+      <li><span class="step-number">04</span><div><h3>ACOMPANHAR</h3><p>Apoiar a empresa na implementação e na tomada de decisões.</p></div></li>
+      <li><span class="step-number">05</span><div><h3>MEDIR E AJUSTAR</h3><p>Acompanhar os resultados, corrigir a rota e identificar os próximos passos.</p></div></li>
+    </ol>
+    <div class="pills"><span class="pill">DIAGNOSTICAR</span><span>→</span><span class="pill">PRIORIZAR</span><span>→</span><span class="pill">ESTRUTURAR</span><span>→</span><span class="pill">ACOMPANHAR</span><span>→</span><span class="pill">MEDIR</span><span>→</span><span class="pill active">EVOLUIR</span></div>
+    <p class="workflow-copy">Dependendo do diagnóstico, os projetos podem envolver novos produtos ou serviços, tecnologia, automação, novos canais, processos, vendas, experiência do cliente e expansão.</p>
+  </div>
+</section>
+<section class="paper" id="para-quem">
+  <div class="paper-inner">
+    <p class="kicker" style="color:#526a81">Para quem é</p>
+    <h2>Procurados</h2>
+    <p class="paper-lead">Empresários que sabem que suas empresas podem evoluir mais.</p>
+    <div class="note-card"><div class="symbol">⌕</div><p>Você percebe problemas, mas não consegue parar para investigá-los.</p></div>
+    <div class="note-card"><div class="symbol">◎</div><p>Enxerga oportunidades, mas ninguém é responsável por desenvolvê-las.</p></div>
+    <div class="note-card"><div class="symbol">↗</div><p>Quer transformar ideias e desafios em projetos que saem do papel.</p></div>
+  </div>
+</section>
+<section class="founders" id="quem-somos">
+  <div class="founders-inner">
+    <p class="kicker" style="color:#607f9b">Quem somos</p>
+    <h2>Prazer, somos Júlia e Matheus.</h2>
+    <img class="couple" src="/assets/csk%20sem%20fronteiras.jfif" alt="Júlia e Matheus, fundadores da CSK Sem Fronteiras" loading="lazy">
+    <div class="rings"><span class="ring-icon" aria-hidden="true">○○</span><span>Nós costumamos brincar que decidimos ser casados duas vezes: na vida e nos negócios.</span></div>
+    <p>Somos advogados de formação e empresários por experiência.</p>
+    <p>Ao longo da nossa trajetória empreendendo e administrando nossos próprios negócios, percebemos que aquilo que realmente nos movimenta é entender problemas, enxergar possibilidades, conectar pessoas e transformar oportunidades em projetos.</p>
+    <p>Hoje, vivendo nos Estados Unidos, seguimos ampliando nosso contato com empresas, conhecimentos e ecossistemas de inovação.</p>
+    <p>Tudo isso alimenta a essência do nosso trabalho:</p>
+    <div class="motto">Enxergar.<span>Conectar.</span>Estruturar.<span><em>Impactar.</em></span></div>
+  </div>
+</section>
+<section class="conversation" id="conversar">
+  <div class="conversation-inner">
+    <p class="kicker" style="color:#607f9b">Vamos conversar</p>
+    <h2>O próximo passo começa com uma conversa.</h2>
+    <p class="lead">Conte um pouco sobre sua empresa, os desafios que você está enxergando e o que gostaria de transformar.</p>
+    <form class="form-card" id="companyForm">
+      <div class="field"><label for="name">Seu nome</label><input id="name" name="name" type="text" placeholder="Como podemos chamar você?" required></div>
+      <div class="field"><label for="company">Empresa</label><input id="company" name="company" type="text" placeholder="Nome da empresa" required></div>
+      <div class="field"><label for="email">E-mail (opcional)</label><input id="email" name="email" type="email" placeholder="voce@empresa.com"></div>
+      <div class="field"><label for="challenge">O que sua empresa precisa melhorar ou desenvolver?</label><textarea id="challenge" name="challenge" placeholder="Conte sobre o desafio ou a oportunidade..." required></textarea></div>
+      <button class="submit" type="submit">QUERO CONVERSAR COM A CSK →</button>
+      <p class="form-small">Ao clicar, o WhatsApp será aberto com suas respostas para você revisar e enviar.</p>
+    </form>
+  </div>
+</section>
+<footer>© <span id="year"></span> CSK Sem Fronteiras · Estratégia e Inovação</footer>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('companyForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const data = new FormData(this);
+  const message = [
+    'Olá! Gostaria de conversar com a CSK Sem Fronteiras.',
+    '',
+    'Nome: ' + (data.get('name') || ''),
+    'Empresa: ' + (data.get('company') || ''),
+    'E-mail: ' + (data.get('email') || 'Não informado'),
+    'Desafio ou oportunidade: ' + (data.get('challenge') || '')
+  ].join('\n');
+  window.open('https://wa.me/557130430188?text=' + encodeURIComponent(message), '_blank', 'noopener,noreferrer');
+});
+</script>
+<script src="/i18n.js"></script>
 </body>
 </html>
