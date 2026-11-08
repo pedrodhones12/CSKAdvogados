@@ -132,15 +132,19 @@ h1 em{display:block;color:#c4d2de;font-weight:500}
   const instruction=document.querySelector(".instruction");
   if(!stage||!lens||!handle||!cta)return;
 
-  // O primeiro clique revela a composição completa; o clique seguinte segue para a página institucional.
+  // Um único clique inicia a animação e redireciona automaticamente.
   cta.addEventListener("click",event=>{
-    if(!stage.classList.contains("is-revealed")){
-      event.preventDefault();
-      stage.classList.add("is-revealed");
-      cta.setAttribute("aria-expanded","true");
-      cta.querySelector("span:first-child").textContent="CONHEÇA A CSK E NOSSA ESTRATÉGIA";
-      if(instruction)instruction.textContent="NOVAS PERSPECTIVAS PARA SUA EMPRESA";
-    }
+    event.preventDefault();
+    if(stage.classList.contains("is-revealed"))return;
+    stage.classList.add("is-revealed");
+    cta.setAttribute("aria-expanded","true");
+    cta.setAttribute("aria-disabled","true");
+    cta.style.pointerEvents="none";
+    cta.querySelector("span:first-child").textContent="ACESSANDO A CSK...";
+    if(instruction)instruction.textContent="NOVAS PERSPECTIVAS PARA SUA EMPRESA";
+    window.setTimeout(()=>{
+      window.location.assign(cta.href);
+    },900);
   });
 
   // Permite arrastar a lupa antes de ativar a revelação.
