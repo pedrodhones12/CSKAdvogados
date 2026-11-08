@@ -57,11 +57,48 @@ h1 em{display:block;color:#c4d2de;font-weight:500}
 
 @media(max-width:360px){.word-row{font-size:13px;gap:13px}.cta{font-size:7px;letter-spacing:.7px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Revelação em tela cheia acionada pelo botão principal */
+.full-reveal{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:0;pointer-events:none;
+  background:radial-gradient(ellipse at 48% 88%,rgba(0,126,255,.92) 0%,rgba(0,91,201,.58) 25%,transparent 62%),
+             linear-gradient(180deg,#263b55 0%,#24466d 58%,#0758a8 100%);
+  transition:opacity 1s ease}
+.full-words{position:absolute;inset:7% -7% auto;display:flex;flex-direction:column;gap:25px;
+  transform:rotate(-2deg);width:114%;min-height:95%;justify-content:flex-start}
+.full-words .word-row{justify-content:space-around;gap:30px;font-size:clamp(15px,1.35vw,20px);
+  color:rgba(204,222,241,.58);animation:fullDrift 18s ease-in-out infinite alternate}
+.full-words .word-row:nth-child(even){animation-duration:23s}
+@keyframes fullDrift{from{translate:-18px 0}to{translate:18px 0}}
+.stage.is-revealed{background:linear-gradient(180deg,#263b55 0%,#24466d 58%,#0758a8 100%)}
+.stage.is-revealed .full-reveal{opacity:1}
+.stage.is-revealed .lens,.stage.is-revealed .handle{opacity:0;transform:scale(1.08);transition:opacity .8s ease,transform 1s ease}
+.stage.is-revealed .copy{transform:translateY(76px);transition:transform 1s cubic-bezier(.2,.75,.25,1)}
+.stage.is-revealed .instruction{opacity:.9}
+.stage.is-revealed .cta{box-shadow:0 12px 34px rgba(0,22,55,.22)}
+.lens,.handle{transition:opacity .8s ease,transform 1s ease}
+.copy{transition:transform 1s cubic-bezier(.2,.75,.25,1)}
+@media(max-width:700px){
+ .full-words{top:7%;gap:22px;width:145%;left:-22%}
+ .full-words .word-row{font-size:13px;gap:18px}
+ .stage.is-revealed .copy{transform:translateY(48px)}
+}
+@media(prefers-reduced-motion:reduce){.full-reveal,.lens,.handle,.copy{transition:none!important}}
+
 </style>
   <script src="i18n.js"></script>
 </head>
 <body>
 <div class="stage">
+<div class="full-reveal" aria-hidden="true">
+  <div class="full-words">
+    <div class="word-row"><span>evolução</span><span>gargalos</span><span>oportunidades</span><span>riscos</span><span>prioridades</span><span>projetos</span></div>
+    <div class="word-row"><span>prioridades</span><span>projetos</span><span>evolução</span><span>gargalos</span><span>oportunidades</span><span>riscos</span></div>
+    <div class="word-row"><span>gargalos</span><span>oportunidades</span><span>riscos</span><span>prioridades</span><span>projetos</span><span>evolução</span></div>
+    <div class="word-row"><span>riscos</span><span>prioridades</span><span>projetos</span><span>evolução</span><span>gargalos</span><span>oportunidades</span></div>
+    <div class="word-row"><span>oportunidades</span><span>riscos</span><span>prioridades</span><span>projetos</span><span>evolução</span><span>gargalos</span></div>
+    <div class="word-row"><span>evolução</span><span>projetos</span><span>gargalos</span><span>riscos</span><span>oportunidades</span><span>prioridades</span></div>
+  </div>
+</div>
 <header>
 <a class="logo" href="/" aria-label="CSK"><svg viewBox="0 0 100 66" role="img" aria-label="CSK"><g fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 18H43M9 18C10 5 30 2 40 8M12 19C1 34 13 52 28 49C34 48 39 44 42 38"/><path d="M43 13C28 10 26 27 40 31C53 35 48 48 35 46"/><path d="M44 18V52M44 34L62 17M46 33L64 51"/><path d="M66 17V51M66 34L85 17M67 34L86 51"/></g><text x="8" y="55" fill="currentColor" font-family="Georgia,serif" font-size="10" opacity=".7"> </text></svg></a>
 <div class="descriptor">NÚCLEO EXTERNO<br>DE ESTRATÉGIA E<br>INOVAÇÃO</div>
@@ -77,55 +114,66 @@ h1 em{display:block;color:#c4d2de;font-weight:500}
 <div class="word-row"><span>gargalos</span><span>oportunidades</span><span>riscos</span></div>
 <div class="word-row"><span>prioridades</span><span>projetos</span><span>evolução</span></div>
 <div class="word-row"><span>oportunidades</span><span>riscos</span><span>projetos</span></div>
-</div></div><div class="handle" aria-hidden="true"></div>
+</div></div><div class="handle" id="handle" aria-hidden="true"></div>
 </div>
 <section class="copy">
 <h1>Toda empresa tem algo<br>que <em>a rotina esconde.</em></h1>
 <div class="instruction">ARRASTE A LUPA</div>
-<a class="cta" href="/institucional.html"><span>ENXERGAR O QUE ESTÁ ESCONDIDO</span><span class="arrow" aria-hidden="true">→</span></a>
+<a class="cta" id="revealCta" href="/institucional.html" aria-expanded="false"><span>ENXERGAR O QUE ESTÁ ESCONDIDO</span><span class="arrow" aria-hidden="true">→</span></a>
 </section>
 </main>
 </div>
 <script>
-(function(){
-  const lens=document.getElementById('lens');
-  const handle=document.getElementById('handle');
-  const field=document.getElementById('revealField');
-  if(!lens||!handle||!field)return;
-  let raf=0, currentX=0,currentY=72,targetX=0,targetY=72;
-  const radius=165;
-  function update(){
-    const dx=targetX-currentX,dy=targetY-currentY;
-    currentX+=dx*0.22; currentY+=dy*0.22;
-    if(Math.abs(dx)<0.4)currentX=targetX;
-    if(Math.abs(dy)<0.4)currentY=targetY;
-    lens.style.left=currentX+'px';
-    lens.style.top=currentY+'px';
-    handle.style.left=(currentX+267)+'px';
-    handle.style.top=(currentY+270)+'px';
-    field.style.setProperty('--reveal-x',(currentX+radius)+'px');
-    field.style.setProperty('--reveal-y',(currentY+radius)+'px');
-    if(Math.abs(targetX-currentX)>.4||Math.abs(targetY-currentY)>.4)raf=requestAnimationFrame(update);
+(() => {
+  const stage=document.querySelector(".stage");
+  const lens=document.getElementById("lens");
+  const handle=document.getElementById("handle");
+  const cta=document.getElementById("revealCta");
+  const instruction=document.querySelector(".instruction");
+  if(!stage||!lens||!handle||!cta)return;
+
+  // O primeiro clique revela a composição completa; o clique seguinte segue para a página institucional.
+  cta.addEventListener("click",event=>{
+    if(!stage.classList.contains("is-revealed")){
+      event.preventDefault();
+      stage.classList.add("is-revealed");
+      cta.setAttribute("aria-expanded","true");
+      cta.querySelector("span:first-child").textContent="CONHEÇA A CSK E NOSSA ESTRATÉGIA";
+      if(instruction)instruction.textContent="NOVAS PERSPECTIVAS PARA SUA EMPRESA";
+    }
+  });
+
+  // Permite arrastar a lupa antes de ativar a revelação.
+  let dragging=false,raf=0;
+  let x=Math.max(0,Math.min(innerWidth-330,innerWidth*.393-165));
+  let y=72,tx=x,ty=y;
+  const paint=()=>{
+    const dx=tx-x,dy=ty-y;
+    x+=dx*.24;y+=dy*.24;
+    lens.style.left=x+"px";lens.style.top=y+"px";
+    handle.style.left=(x+267)+"px";handle.style.top=(y+270)+"px";
+    if(Math.abs(dx)>.5||Math.abs(dy)>.5)raf=requestAnimationFrame(paint);
     else raf=0;
-  }
-  function onMove(event){
-    targetX=Math.max(0,Math.min(window.innerWidth-330,event.clientX-165));
-    targetY=Math.max(0,Math.min(window.innerHeight-330,event.clientY-165));
-    if(!raf)raf=requestAnimationFrame(update);
-  }
-  function resetPosition(){
-    targetX=Math.max(0,Math.min(window.innerWidth-330,window.innerWidth*.393-165));
-    targetY=72;
-    if(!raf)raf=requestAnimationFrame(update);
-  }
-  currentX=targetX=Math.max(0,Math.min(window.innerWidth-330,window.innerWidth*.393-165));
-  lens.style.left=currentX+'px';lens.style.top=currentY+'px';
-  handle.style.left=(currentX+267)+'px';handle.style.top=(currentY+270)+'px';
-  field.style.setProperty('--reveal-x',(currentX+165)+'px');
-  field.style.setProperty('--reveal-y',(currentY+165)+'px');
-  document.addEventListener('mousemove',onMove,{passive:true});
-  document.addEventListener('pointermove',onMove,{passive:true});
-  window.addEventListener('resize',resetPosition);
+  };
+  lens.addEventListener("pointerdown",e=>{
+    if(stage.classList.contains("is-revealed"))return;
+    dragging=true;lens.setPointerCapture?.(e.pointerId);e.preventDefault();
+  });
+  window.addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    tx=Math.max(0,Math.min(innerWidth-330,e.clientX-165));
+    ty=Math.max(0,Math.min(innerHeight-330,e.clientY-165));
+    if(!raf)raf=requestAnimationFrame(paint);
+  });
+  window.addEventListener("pointerup",()=>dragging=false);
+  window.addEventListener("pointercancel",()=>dragging=false);
+  window.addEventListener("resize",()=>{
+    if(dragging)return;
+    tx=Math.max(0,Math.min(innerWidth-330,innerWidth*.393-165));
+    if(!raf)raf=requestAnimationFrame(paint);
+  });
+  lens.style.left=x+"px";lens.style.top=y+"px";
+  handle.style.left=(x+267)+"px";handle.style.top=(y+270)+"px";
 })();
 </script>
 </body>
