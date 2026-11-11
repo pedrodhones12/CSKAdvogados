@@ -25,7 +25,9 @@ main{position:relative;width:420px;margin-left:calc(50% - 190px);padding-top:72p
 .lens{position:fixed;top:72px;left:calc(50% - 313px);z-index:1;width:330px;height:330px;border:1.5px solid rgba(246,242,239,.94);border-radius:50%;overflow:hidden;background:rgba(205,221,234,.025);box-shadow:inset 0 0 20px rgba(226,236,244,.035);pointer-events:none;user-select:none;will-change:left,top}
 .lens:before{content:"";position:absolute;inset:5px;border:1px solid rgba(229,237,243,.07);border-radius:50%;pointer-events:none}
 .lens:active{cursor:grabbing}
-.reveal-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;--reveal-x:39.3vw;--reveal-y:237px;mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%);-webkit-mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%)}\n.words{position:absolute;inset:-4px -42px;display:flex;flex-direction:column;justify-content:center;gap:17px;transform:rotate(-1deg);pointer-events:none}\n.reveal-field .words{inset:-20px -5%;gap:24px;justify-content:flex-start;top:10%;height:100%;transform:rotate(-2deg)}
+.reveal-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;--reveal-x:39.3vw;--reveal-y:237px;mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%);-webkit-mask-image:radial-gradient(circle 163px at var(--reveal-x) var(--reveal-y),#000 0 94%,transparent 100%)}
+.words{position:absolute;inset:-4px -42px;display:flex;flex-direction:column;justify-content:center;gap:17px;transform:rotate(-1deg);pointer-events:none}
+.reveal-field .words{inset:-20px -5%;gap:24px;justify-content:flex-start;top:10%;height:100%;transform:rotate(-2deg)}
 .word-row{display:flex;justify-content:center;align-items:center;gap:24px;white-space:nowrap;font-family:"Playfair Display",serif;font-size:17px;line-height:1.1;color:rgba(222,228,236,.62);animation:drift 16s ease-in-out infinite alternate}
 .word-row:nth-child(even){transform:translateX(-26px);font-style:italic;animation-duration:21s}
 .word-row span:nth-child(2){color:rgba(248,241,230,.88);font-weight:600}
