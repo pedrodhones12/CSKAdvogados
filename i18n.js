@@ -3,10 +3,14 @@
 
   const LANGS = {
     pt: { label: 'Português', flag: '🇧🇷', html: 'pt-BR' },
-    en: { label: 'English', flag: '🇺🇸', html: 'en' },
-    fr: { label: 'Français', flag: '🇫🇷', html: 'fr' },
-    ru: { label: 'Русский', flag: '🇷🇺', html: 'ru' },
-    de: { label: 'Deutsch', flag: '🇩🇪', html: 'de' }
+    en: {
+      'evolução':'progress','gargalos':'bottlenecks','oportunidades':'opportunities','riscos':'risks','prioridades':'priorities','projetos':'projects', label: 'English', flag: '🇺🇸', html: 'en' },
+    fr: {
+      'evolução':'évolution','gargalos':'blocages','oportunidades':'opportunités','riscos':'risques','prioridades':'priorités','projetos':'projets', label: 'Français', flag: '🇫🇷', html: 'fr' },
+    ru: {
+      'evolução':'развитие','gargalos':'узкие места','oportunidades':'возможности','riscos':'риски','prioridades':'приоритеты','projetos':'проекты', label: 'Русский', flag: '🇷🇺', html: 'ru' },
+    de: {
+      'evolução':'Entwicklung','gargalos':'Engpässe','oportunidades':'Chancen','riscos':'Risiken','prioridades':'Prioritäten','projetos':'Projekte', label: 'Deutsch', flag: '🇩🇪', html: 'de' }
   };
 
   /*
