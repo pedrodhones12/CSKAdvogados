@@ -18,7 +18,7 @@ body{min-height:100vh;min-height:100svh;overflow:hidden;color:var(--paper);font-
 .stage:before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(to bottom,transparent 0,transparent 15px,var(--line) 16px,transparent 17px);pointer-events:none}
 header{position:absolute;left:clamp(18px,1.3vw,25px);right:clamp(18px,1.3vw,25px);top:16px;display:flex;justify-content:space-between;align-items:flex-start;z-index:4}
 .logo{display:block;width:auto;height:auto;color:#f5f1eb}
-.brand-lockup{display:flex;align-items:center;gap:13px;color:#f5f1eb;text-decoration:none}.brand-mark{font-family:"Playfair Display",serif;font-size:39px;line-height:1;letter-spacing:-5px;font-weight:500}.brand-divider{width:1px;height:43px;background:var(--gold);opacity:.9}.brand-name{font-family:"Playfair Display",serif;font-size:13px;line-height:1.05;letter-spacing:.02em;text-transform:uppercase}.brand-name small{display:block;margin-top:5px;color:var(--gold);font-family:"DM Sans",sans-serif;font-size:7px;letter-spacing:4px;font-weight:600}
+.brand-lockup{display:flex;align-items:center;gap:13px;color:#f5f1eb;text-decoration:none}.brand-mark{display:block;width:58px;height:30px;object-fit:contain;object-position:left center;flex:0 0 auto;image-rendering:auto;-webkit-transform:translateZ(0);transform:translateZ(0)}.brand-divider{width:1px;height:43px;background:var(--gold);opacity:.9}.brand-name{font-family:"Playfair Display",serif;font-size:13px;line-height:1.05;letter-spacing:.02em;text-transform:uppercase}.brand-name small{display:block;margin-top:5px;color:var(--gold);font-family:"DM Sans",sans-serif;font-size:7px;letter-spacing:4px;font-weight:600}
 .descriptor{margin-top:2px;text-align:center;color:#d8e0e8;font-size:8px;line-height:1.28;letter-spacing:1.25px;font-weight:700;text-transform:uppercase;min-width:105px}
 main{position:relative;width:420px;margin-left:calc(50% - 190px);padding-top:72px;padding-bottom:42px}
 .visual{height:318px;position:relative;width:330px;margin-left:-120px;pointer-events:none}
@@ -47,7 +47,7 @@ h1 em{display:block;color:var(--gold);font-weight:500}
 @media(min-height:800px){main{padding-top:72px}}
 @media(max-width:700px){
  body{overflow:auto}.stage{min-height:100svh;overflow:hidden}
- header{top:20px;left:20px;right:20px}.brand-lockup{gap:8px}.brand-mark{font-size:32px;letter-spacing:-4px}.brand-divider{height:34px}.brand-name{font-size:9px}.brand-name small{font-size:6px;letter-spacing:2.8px}.descriptor{font-size:6px;letter-spacing:.8px;min-width:88px}
+ header{top:20px;left:20px;right:20px}.brand-lockup{gap:8px}.brand-mark{width:49px;height:27px}.brand-divider{height:34px}.brand-name{font-size:9px}.brand-name small{font-size:6px;letter-spacing:2.8px}.descriptor{font-size:6px;letter-spacing:.8px;min-width:88px}
  main{width:min(420px,calc(100% - 42px));margin:0 auto;padding-top:clamp(135px,20vh,175px);padding-bottom:36px}
  .visual{width:100%;height:clamp(250px,72vw,318px);margin-left:0}
  .lens{width:330px;height:330px;left:0;transform:none}
@@ -102,7 +102,7 @@ h1 em{display:block;color:var(--gold);font-weight:500}
   </div>
 </div>
 <header>
-<a class="brand-lockup" href="/" aria-label="CSK — Cardoso Sena Kruschewsky Advogados"><span class="brand-mark">CSK</span><span class="brand-divider" aria-hidden="true"></span><span class="brand-name">CARDOSO SENA<br>KRUSCHEWSKY<small>ADVOGADOS</small></span></a>
+<a class="brand-lockup" href="/" aria-label="CSK — Cardoso Sena Kruschewsky Advogados"><img class="brand-mark" src="/assets/logo-csk.svg" alt="CSK"><span class="brand-divider" aria-hidden="true"></span><span class="brand-name">CARDOSO SENA<br>KRUSCHEWSKY<small>ADVOGADOS</small></span></a>
 <div class="descriptor">NÚCLEO EXTERNO<br>DE ESTRATÉGIA E<br>INOVAÇÃO</div>
 </header>
 <main>
